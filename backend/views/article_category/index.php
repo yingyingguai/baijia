@@ -23,7 +23,7 @@
     <?php endforeach; ?>
     <tr>
     <tr>
-        <td colspan="7"><a href="<?= \yii\helpers\Url::to(['article_category/add']) ?>" class=" btn btn-danger">添加</a>
+        <td colspan="7"><a href="<?= \yii\helpers\Url::to(['article_category/add']) ?>" class=" btn btn-info">添加</a>
         </td>
     </tr>
 </table>

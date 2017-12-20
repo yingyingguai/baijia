@@ -9,26 +9,26 @@
         <th style="text-align: center">操作</th>
     </tr>
     <?php foreach ($brands as $brand): ?>
-        <tr id="<?= $brand->id ?>">
+    <tr id="<?= $brand->id ?>">
 
-            <td><?= $brand->id ?></td>
-            <td><?= $brand->name ?></td>
-            <td><?= $brand->intro ?></td>
-            <td><img src="<?= $brand->logo ?>" alt="" width="20px"></td>
-            <td><?= $brand->sort ?></td>
-            <td><?= $brand->status == 0 ? '隐藏' : '' ?>
-                <?= $brand->status == 1 ? '显示' : '' ?>
-                <?= $brand->status == -1 ? '删除' : '' ?></td>
-            <td><a href="<?= \yii\helpers\Url::to(['brand/edit', 'id' => $brand->id]) ?>"
-                   class=" btn btn-warning">修改</a>
-                <a  class=" btn btn-danger">删除</a></td>
-        </tr>
-
-    <?php endforeach; ?>
-    <tr>
-    <tr>
-        <td colspan="7"><a href="<?= \yii\helpers\Url::to(['brand/add']) ?>" class=" btn btn-danger">添加</a></td>
+        <td><?= $brand->id ?></td>
+        <td><?= $brand->name ?></td>
+        <td><?= $brand->intro ?></td>
+        <td><img src="<?= $brand->logo ?>" alt="" width="20px"></td>
+        <td><?= $brand->sort ?></td>
+        <td><?= $brand->status == 0 ? '隐藏' : '' ?>
+            <?= $brand->status == 1 ? '显示' : '' ?>
+            <?= $brand->status == -1 ? '删除' : '' ?></td>
+        <td><a href="<?= \yii\helpers\Url::to(['brand/edit', 'id' => $brand->id]) ?>"
+               class=" btn btn-warning">修改</a>
+            <a  class=" btn btn-danger">删除</a></td>
     </tr>
+
+<?php endforeach; ?>
+<tr>
+<tr>
+    <td colspan="7"><a href="<?= \yii\helpers\Url::to(['brand/add']) ?>" class=" btn btn-danger">添加</a></td>
+</tr>
 </table>
 <?php
 $url = \yii\helpers\Url::to(['brand/delete']);

@@ -97,15 +97,12 @@ class  BrandController extends Controller
     //删除
     public function actionDelete($id)
     {
-
         //ajax删除
         //点击删除 状态为-1 都不显示 数据库还有
-
         $row = Brand::findOne(['id' => $id]);
         $row->status = -1;
         $res = $row->save(false);
        // var_dump($res);die;
         echo $res;
-
     }
 }
