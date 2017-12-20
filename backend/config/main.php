@@ -10,6 +10,10 @@ return [
     'id' => 'app-backend',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
+    //设置语言
+  'language'=>'zh-CN',
+    //修改默认路由
+'defaultRoute'=>'index',
     'bootstrap' => ['log'],
     'modules' => [],
     'components' => [
@@ -37,14 +41,14 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        /*
+
         'urlManager' => [
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
+            'enablePrettyUrl' => true,//启用美化网址
+            'showScriptName' => false,//显示脚本
             'rules' => [
             ],
         ],
-        */
+
     ],
     'params' => $params,
 ];
