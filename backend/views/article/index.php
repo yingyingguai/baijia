@@ -14,13 +14,13 @@
             <td><?= $article->id ?></td>
             <td><?= $article->name ?></td>
             <td><?= $article->intro ?></td>
-            <td><?= $article->article_category->name ?></td>
+            <td><?= $article->articleCategory->name ?></td>
 
             <td><?= $article->sort ?></td>
             <td><?= $article->status == 0 ? '隐藏' : '' ?>
                 <?= $article->status == 1 ? '显示' : '' ?>
                 <?= $article->status == -1 ? '删除' : '' ?></td>
-            <td><?= date('Y-m-d H-m-s',$article->create_time )?></td>
+            <td><?= date('Y-m-d H:i:s',$article->create_time )?></td>
             <td><a href="<?= \yii\helpers\Url::to(['article/edit', 'id' => $article->id]) ?>"
                    class=" btn btn-warning">修改</a>
                 <a  class=" btn btn-danger">删除</a></td>
@@ -44,7 +44,7 @@ $('tr').on('click','.btn-danger',function() {
         if (confirm('确认删除')){
             //json 传地址 id 
             $.getJSON('$url?id='+id,function(data) {
-                console.debug(data)
+               // console.debug(data)
             if (data){
                   alert("ok")
               }else {

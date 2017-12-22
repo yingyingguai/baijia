@@ -14,7 +14,7 @@
         <td><?= $brand->id ?></td>
         <td><?= $brand->name ?></td>
         <td><?= $brand->intro ?></td>
-        <td><img src="<?= $brand->logo ?>" alt="" width="20px"></td>
+        <td><img src="<?= $brand->logo ?>" alt="" width="100px"></td>
         <td><?= $brand->sort ?></td>
         <td><?= $brand->status == 0 ? '隐藏' : '' ?>
             <?= $brand->status == 1 ? '显示' : '' ?>
@@ -27,7 +27,7 @@
 <?php endforeach; ?>
 <tr>
 <tr>
-    <td colspan="7"><a href="<?= \yii\helpers\Url::to(['brand/add']) ?>" class=" btn btn-danger">添加</a></td>
+    <td colspan="7"><a href="<?= \yii\helpers\Url::to(['brand/add']) ?>" class=" btn btn-info">添加</a></td>
 </tr>
 </table>
 <?php
