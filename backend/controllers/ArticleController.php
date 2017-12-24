@@ -5,6 +5,7 @@ namespace backend\controllers;
 use backend\models\Article;
 use backend\models\ArticleCategory;
 use backend\models\ArticleDetail;
+use kucha\ueditor\UEditorAction;
 use yii\data\Pagination;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
@@ -18,11 +19,12 @@ class ArticleController extends Controller
     {
         return [
             'upload' => [
-                'class' => 'common\widgets\ueditor\UeditorAction',
+                'class' => UEditorAction::className(),
                 'config' => [
                     //上传图片配置
                     'imageUrlPrefix' => "", /* 图片访问路径前缀 */
-                    'imagePathFormat' => "/image/{yyyy}{mm}{dd}/{time}{rand:6}", /* 上传保存路径,可以自定义保存路径和文件名格式 */
+                    'imagePathFormat' => "/upload/image/{yyyy}{mm}{dd}/{time}{rand:6}", /* 上传保存路径,可以自定义保存路径和文件名格式 */
+                    "imageRoot" => \Yii::getAlias("@webroot"),
                 ]
             ]
         ];

@@ -11,7 +11,7 @@ class ArticleCategoryController extends Controller
     //1.首页
     public function actionIndex()
     {
-        $categorys = ArticleCategory::find()->All();
+        $categorys = ArticleCategory::find()->where(['>=','status',0])->All();
         return $this->render('index', ['categorys' => $categorys]);
     }
     //添加

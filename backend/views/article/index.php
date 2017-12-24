@@ -39,13 +39,14 @@ $js =
 $('tr').on('click','.btn-danger',function() {
     //找到当前id
         var id = $(this).closest('tr').attr('id');
-        //删除当前行
-        $(this).closest('tr').remove();
+    
         if (confirm('确认删除')){
+                //删除当前行
+        $(this).closest('tr').remove();
             //json 传地址 id 
             $.getJSON('$url?id='+id,function(data) {
                // console.debug(data)
-            if (data){
+            if (data){       
                   alert("ok")
               }else {
                   alert('删除失败')

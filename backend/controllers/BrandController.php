@@ -58,9 +58,9 @@ class  BrandController extends Controller
             // 需要填写你的 Access Key 和 Secret Key
             $accessKey ="JRnaFMeKgmPI-CBmAvyLq9OcGkgKtHp3MUBjlSvj";
             $secretKey = "LOinqOoJWzEsmXxwDhauZo9aAD9udFqGydiguiV0";
-            $bucket = "your bucket name";//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            $bucket = "mine";//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             //域名!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            $domian = '';
+            $domian = 'p1cemq4je.bkt.clouddn.com';
             // 构建鉴权对象
             $auth = new Auth($accessKey, $secretKey);
             // 生成上传 Token
