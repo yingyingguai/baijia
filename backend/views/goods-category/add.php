@@ -11,6 +11,7 @@ $this->registerCssFile('@web/zTree/css/zTreeStyle/zTreeStyle.css');
 $this->registerJsFile('@web/zTree/js/jquery.ztree.core.js', [
     'depends' => \yii\web\JqueryAsset::className(),
 ]);
+
 echo <<<HTML
 <!--这是显示容器-->
 <div>
@@ -18,7 +19,7 @@ echo <<<HTML
 </div>
 HTML;
 $nodes = \backend\models\GoodsCategory::getNodes();
-//$id = $model->id;
+$id = $model->id;
 $js = <<<JS
         var zTreeObj;
         // zTree 的参数配置，深入使用请参考 API 文档（setting 配置详解）
@@ -45,8 +46,8 @@ $js = <<<JS
              //展开所有节点 
             zTreeObj.expandAll(true);
             //节点选中 用来回显 
-            var node = zTreeObj.getNodeByParam("id",$model->id,null);
-       zTreeObj.selectNode(node);
+          var node = zTreeObj.getNodeByParam("id",'{$id}',null);
+  zTreeObj.selectNode(node);
 JS;
 $this->registerJs($js);
 //==============================ztree============================================

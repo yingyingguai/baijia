@@ -14,7 +14,7 @@
             <td><a href="<?= \yii\helpers\Url::to(['goods-category/edit', 'id' => $model->id]) ?>"
                    class=" btn btn-warning">修改</a>
                 <a href="<?= \yii\helpers\Url::to(['goods-category/delete', 'id' => $model->id]) ?>"
-                   class=" btn btn-danger">修改</a>
+                   class=" btn btn-danger">删除</a>
        </tr>
 
     <?php endforeach; ?>

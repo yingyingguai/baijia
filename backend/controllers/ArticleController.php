@@ -6,14 +6,13 @@ use backend\models\Article;
 use backend\models\ArticleCategory;
 use backend\models\ArticleDetail;
 use kucha\ueditor\UEditorAction;
-use yii\data\Pagination;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\Request;
 
 class ArticleController extends Controller
 {
-   // public $enableCsrfValidation = false;
+ public $enableCsrfValidation = false;
     //上传图片
     public function actions()
     {
@@ -65,7 +64,6 @@ class ArticleController extends Controller
             }
         }
         return $this->render('add', ['model' => $model, 'options' => $options]);
-
     }
     //修改
     public function actionEdit($id)
