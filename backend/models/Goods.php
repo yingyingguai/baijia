@@ -8,7 +8,7 @@ class Goods extends ActiveRecord{
     public function rules()
     {
         return [
-            [['name','logo','market_price','shop_price','is_on_sale','status','content'],'required'],
+            [['name','logo','market_price','goods_category_id','shop_price','is_on_sale','status','content'],'required'],
             [['stock','sn','goods_category_id','brand_id','sort'],'integer'],
             ['view_time', 'default', 'value' => 0],
     ];

@@ -59,8 +59,13 @@ class GoodsCategoryController extends Controller
                     $parent = GoodsCategory::findOne(['id' => $model->parent_id]);
                     $model->appendTo($parent);
                 } else {
-                    //创建根节点
-                    $model->makeRoot();
+                    if ($model->getOldAttribute('parent_id')){
+                        //创建根节点
+                        $model->makeRoot();
+                    }else{
+                        //没有修改原来的
+                        $model->save();
+                    }
                 }
                 $model->save();
                 //提示信息 跳转

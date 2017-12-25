@@ -13,8 +13,18 @@ class  GoodsCategory extends ActiveRecord
         return [
             [['tree', 'lft', 'rgt', 'depth', 'parent_id'], 'integer'],
             ['intro', 'string'],
-            ['name', 'string']
+            ['name', 'string'],
+            ['parent_id','check']
         ];
+    }
+    //自定义验证规则
+    public function check(){
+        $parent=GoodsCategory::findOne(['id'=>$this->parent_id]);
+        //处理验证不通过
+        if ($parent->isChildOf($this)){
+            //只添加错误信息
+            $this->addError('parent_id','不能修改为自己的子孙节点');
+        }
     }
 
     //定义字段的标签名称

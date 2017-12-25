@@ -1,8 +1,8 @@
 <?php
 $form = \yii\bootstrap\ActiveForm::begin();
 echo $form->field($model, 'name')->textInput();
-echo $form->field($model, 'sn')->textInput();
-echo $form->field($model, 'logo')->textInput();
+
+echo $form->field($model, 'logo')->hiddenInput();
 
 //>>>1.加载 js css
 $this->registerCssFile('@web/zTree/css/zTreeStyle/zTreeStyle.css');
@@ -15,7 +15,7 @@ $this->registerJsFile('@web/webuploader/webuploader.js', [
     'depends' => \yii\web\JqueryAsset::className(),
 ]);
 
-$upload_url = \yii\helpers\Url::to(['goods/upload']);
+$upload_url = \yii\helpers\Url::to(['goods/uploads']);
 echo <<<HTML
 <!--dom结构部分-->
 <div id="uploader-demo">
@@ -64,7 +64,7 @@ uploader.on( 'uploadSuccess', function( file ,response) {
   //回显图片 
   $('#img').attr('src',response.url);
   
-  $('#brand-logo').val(response.url);
+  $('#goods-logo').val(response.url);
 });
 
 
@@ -106,6 +106,7 @@ echo $form->field($model, 'shop_price')->textInput();
 echo $form->field($model, 'stock')->textInput();
 echo $form->field($model, 'is_on_sale', ['inline' => 1])->radioList([1 => '正常', 0 => '隐藏']);
 echo $form->field($model, 'status', ['inline' => 1])->radioList([1 => '正常', 0 => '回收站']);
+echo $form->field($model, 'sort')->textInput();
 echo $form->field($model,'content')->widget(\kucha\ueditor\UEditor::className());
 echo '<button type="submit" class="btn btn-primary">提交</button>';
 \yii\bootstrap\ActiveForm::end();

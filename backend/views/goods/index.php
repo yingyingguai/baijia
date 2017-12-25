@@ -1,3 +1,15 @@
+<form class="form-inline" action="index" method="get" >
+    <div class="form-group">
+        <input type="text" class="form-control" name="sn" id="exampleInputName2" placeholder="货号">
+    </div>
+    <div class="form-group">
+        <input type="text" class="form-control" name="keyword" id="exampleInputEmail2" placeholder="商品名">
+    </div><div class="form-group">
+        <input type="text" class="form-control" name="shop_price" id="exampleInputEmail2" placeholder="价格">
+    </div>
+    <button type="submit" class="btn  glyphicon glyphicon-search">搜索</button>
+</form>
+
 <table class="table table-bordered" style="text-align: center">
     <tr>
         <th style="text-align: center">编号</th>
@@ -22,7 +34,7 @@
             <td><?= $good->id ?></td>
             <td><?= $good->sn ?></td>
             <td><?= $good->name ?></td>
-            <td><?= $good->logo ?></td>
+            <td><img width="100px" src="<?= $good->logo ?>" ></td>
             <td><?= $good->goodsCategory->name ?></td>
             <td><?= $good->brand->name ?></td>
             <td><?= $good->market_price ?></td>
@@ -37,42 +49,28 @@
             <td><?= $good->sort ?></td>
             <td><?= date('Y-m-d H:i:s',$good->create_time )?></td>
             <td><?= $good->view_time ?></td>
-            <td>  <a href="<?= \yii\helpers\Url::to(['goods/gallery']) ?>"
+            <td>  <a href="<?= \yii\helpers\Url::to(['goods/gallery','id' => $good->id]) ?>"
                      class="glyphicon glyphicon-picture">相册</a>
+
+
                 <a href="<?= \yii\helpers\Url::to(['goods/edit', 'id' => $good->id]) ?>"
                    class=" btn btn-warning">修改</a>
-                <a  class=" btn btn-danger">删除</a></td>
         </tr>
 
     <?php endforeach; ?>
-    <tr>
+
     <tr>
         <td colspan="15"><a href="<?= \yii\helpers\Url::to(['goods/add']) ?>" class=" btn btn-info">添加</a></td>
     </tr>
 </table>
-<?php
-$url = \yii\helpers\Url::to(['goods/delete']);
-$js =
-    <<<JS
-$('tr').on('click','.btn-danger',function() {
-    //找到当前id
-        var id = $(this).closest('tr').attr('id');
-    
-        if (confirm('确认删除')){
-                //删除当前行
-        $(this).closest('tr').remove();
-            //json 传地址 id 
-            $.getJSON('$url?id='+id,function(data) {
-               // console.debug(data)
-            if (data){       
-                  alert("ok")
-              }else {
-                  alert('删除失败')
-              }
-            })
-        }
-})
-JS;
-$this->registerJs($js);
+<tr>
+
+    <?=\yii\widgets\LinkPager::widget([
+        'pagination'=>$pager,
+        'nextPageLabel'=>'下一页',
+        'prevPageLabel'=>'上一页',
+    ])?>
+</tr>
+
 
 

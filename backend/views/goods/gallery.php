@@ -3,10 +3,6 @@
  * @var $this \Yii\web\View
  */
 $form = \yii\bootstrap\ActiveForm::begin();
-echo $form->field($model, 'name')->textInput();
-echo $form->field($model, 'intro')->textarea();
-echo $form->field($model, 'logo')->hiddenInput();
-
 //====================== web uploader==============================
 //>>>1,引入js cs
 $this->registerCssFile('@web/webuploader/webuploader.css');
@@ -14,11 +10,11 @@ $this->registerJsFile('@web/webuploader/webuploader.js', [
     //加载文件位置 依赖jquery
     'depends' => \yii\web\JqueryAsset::className(),
 ]);
-$upload_url = \yii\helpers\Url::to(['brand/upload']);
+$upload_url = \yii\helpers\Url::to(['goods/upload1']);
 echo <<<HTML
 <!--dom结构部分-->
 <div id="uploader-demo">
-    <img id="img" src="$model->logo" width="100px">
+    <img id="img" src="" width="100px">
     <!--用来存放item-->
     <div id="fileList" class="uploader-list"></div>
     <div id="filePicker">选择图片</div>
@@ -48,16 +44,46 @@ var uploader = WebUploader.create({
 // 文件上传成功，给item添加成功class, 用样式标记上传成功。
 uploader.on( 'uploadSuccess', function( file ,response) {
     // $( '#'+file.id ).addClass('upload-state-done');
- console.debug(response)
+ //console.debug(response);
   //回显图片 
-  $('#img').attr('src',response.url);
+  var url =response.url;
+
+ 
   
-  $('#brand-logo').val(response.url);
+ $("<tr><td><img src="+url+"></td><td><a href='#'>删除</a></td></tr>").appendTo($('#table'))
+ 
 });
 JS;
 $this->registerJs($js);
 //====================== web uploader==============================
-echo $form->field($model, 'sort')->textInput([]);
-echo $form->field($model, 'status', ['inline' => 1])->radioList([1 => '显示', 0 => '隐藏']);
-echo '<button type="submit" class="btn btn-info">提交</button>';
+
 \yii\bootstrap\ActiveForm::end();
+?>
+<table id="table">
+
+</table>
+<?php
+$url = \yii\helpers\Url::to(['']);
+$js1=
+    <<<JS
+$('tr').on('click','.btn-danger',function() {
+    //找到当前id
+        var id = $(this).closest('tr').attr('id');
+    
+        if (confirm('确认删除')){
+                //删除当前行
+        $(this).closest('tr').remove();
+            //json 传地址 id 
+            $.getJSON('$url?id='+id,function(data) {
+               // console.debug(data)
+            if (data){       
+                  alert("ok")
+              }else {
+                  alert('删除失败')
+              }
+            })
+        }
+})
+JS;
+$this->registerJs($js1);
+
