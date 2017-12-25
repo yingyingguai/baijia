@@ -37,9 +37,8 @@ class LoginForm extends Model
 
         if ($user) {
             //>>用户名存在 验证密码
-           // if (\Yii::$app->security->validatePassword($this->password_hash, $user->password_hash))
+  if (\Yii::$app->security->validatePassword($this->password_hash, $user->password_hash))
 
-            if ($user->password_hash==$this->password_hash)
             {
                 //>>密码正确
                 //>>将用户信息保存到session中

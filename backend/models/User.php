@@ -2,27 +2,51 @@
 
 namespace backend\models;
 
+use Yii;
+use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 
-class User extends \yii\db\ActiveRecord implements IdentityInterface
+/**
+ * This is the model class for table "user".
+ *
+ * @property integer $id
+ * @property string $username
+ * @property string $auth_key
+ * @property string $password_hash
+ * @property string $password_reset_token
+ * @property string $email
+ * @property integer $status
+ * @property integer $created_at
+ * @property integer $updated_at
+ */
+class User extends ActiveRecord implements IdentityInterface
 {
-    //>>验证码
-    public $code;
+    /**
+     * @inheritdoc
+     */
 
-    //>>指定规则
+    /**
+     * @inheritdoc
+     */
     public function rules()
     {
         return [
             [['username', 'password_hash','email'], 'required',"message"=>"不能为空"],
-//            [['status', 'created_at', 'updated_at'], 'integer'],
-//            [['username', 'password_hash', 'password_reset_token', 'email'], 'string', 'max' => 255],
-//            [['auth_key'], 'string', 'max' => 32],
-//            [['username'], 'unique'],
-//            [['email'], 'unique'],
-//            [['password_reset_token'], 'unique'],
-//            [["last_login_time","last_login_ip"],"safe"],
+            [['status', 'created_at', 'updated_at'], 'integer'],
+            [['username', 'password_hash', 'password_reset_token', 'email'], 'string', 'max' => 255],
+            [['auth_key'], 'string', 'max' => 32],
+            [['username'], 'unique'],
+            [['email'], 'unique'],
+            [['password_reset_token'], 'unique'],
+            [["last_login_time","last_login_ip"],"safe"],
+            [['auth_key'], 'default', 'value' => 1],
+            [['created_at', 'updated_at'], 'default', 'value' => 1],
         ];
     }
+
+    /**
+     * @inheritdoc
+     */
     public function attributeLabels()
     {
         return [
@@ -38,7 +62,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         ];
     }
 
-        /**
+    /**
      * Finds an identity by the given ID.
      * @param string|int $id the ID to be looked for
      * @return IdentityInterface the identity object that matches the given ID.
@@ -47,7 +71,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
      */
     public static function findIdentity($id)
     {
-        return self::findOne(['id' => $id]);
+        return self::findOne(['id'=>$id]);
     }
 
     /**
@@ -87,7 +111,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
      */
     public function getAuthKey()
     {
-        return $this->authKey;
+        // TODO: Implement getAuthKey() method.
     }
 
     /**

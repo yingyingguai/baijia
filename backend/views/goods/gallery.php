@@ -63,7 +63,7 @@ $this->registerJs($js);
 
 </table>
 <?php
-$url = \yii\helpers\Url::to(['']);
+$url = \yii\helpers\Url::to(['goods/del-gallery']);
 $js1=
     <<<JS
 $('tr').on('click','.btn-danger',function() {

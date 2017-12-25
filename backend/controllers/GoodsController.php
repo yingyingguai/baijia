@@ -255,10 +255,6 @@ class  GoodsController extends Controller
     {
         $id = \Yii::$app->request->post('id');
         $model = Gallery::findOne(['id' => $id]);
-        if ($model && $model->delete()) {
-            return 'success';
-        } else {
-            return 'fail';
-        }
+
     }
 }

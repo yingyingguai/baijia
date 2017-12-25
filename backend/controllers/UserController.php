@@ -17,6 +17,7 @@ class UserController extends Controller
         $users = User::find()->All();
         return $this->render('index', ['users' => $users]);
     }
+
     //>>添加
     public function actionAdd(){
         //>>加载组件
@@ -30,7 +31,7 @@ class UserController extends Controller
                 //>>对密码 进行加密
                 $model->password_hash = \Yii::$app->security->generatePasswordHash($model->password_hash);
                 //>>保存
-                $model->save();
+                $model->save(false);
                 //>>设置提示信息
                 \Yii::$app->session->setFlash('success', '添加成功!');
                 //>>跳转回首页
@@ -43,20 +44,37 @@ class UserController extends Controller
             return $this->render('add', ['model' => $model]);
         }
     }
+
     //>>删除
     public function actionDelete($id)
     {
-            //>>查找id
-            User::findOne(['id' => $id])->delete();
-            //>>提示信息
-            \Yii::$app->session->setFlash('success', '删除成功');
-            //>>跳转
-            return $this->redirect(['user/index']);
+        //>>查找id
+        User::findOne(['id' => $id])->delete();
+        //>>提示信息
+        \Yii::$app->session->setFlash('success', '删除成功');
+        //>>跳转
+        return $this->redirect(['user/index']);
+    }
+
+    //>>管理员修改
+    public function actionEdit($id)
+    {
+        $request = \Yii::$app->request;
+        $model = User::find()->where(['id' => $id])->one();
+        if ($request->isPost) {
+            $model->load($request->post());
+            if ($model->validate()) {
+                $password_hash = \Yii::$app->security->generatePasswordHash($model->password_hash);
+                $model->password_hash = $password_hash;
+                $model->save(false);
+                \Yii::$app->session->setFlash('success', '修改成功');
+                return $this->redirect(['user/index']);
+            }
         }
+        return $this->render('add', ['model' => $model]);
+    }
 
-
-
-//登录
+    //登录
     public function actionLogin()
     {
         $model = new LoginForm();
@@ -96,4 +114,5 @@ class UserController extends Controller
 
         return $this->redirect(['user/login']);
     }
+
 }
