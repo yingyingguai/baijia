@@ -51,6 +51,9 @@
             <td><?= $good->view_time ?></td>
             <td>  <a href="<?= \yii\helpers\Url::to(['goods/gallery','id' => $good->id]) ?>"
                      class="glyphicon glyphicon-picture">相册</a>
+                <a href="<?= \yii\helpers\Url::to(['goods/view','id' => $good->id]) ?>"
+                     class="btn btn-info">预览</a>
+
 
 
                 <a href="<?= \yii\helpers\Url::to(['goods/edit', 'id' => $good->id]) ?>"

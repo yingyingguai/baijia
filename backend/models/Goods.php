@@ -4,6 +4,7 @@ use yii\db\ActiveRecord;
 
 class Goods extends ActiveRecord{
     public $content;
+    public $path;
     //1.规则
     public function rules()
     {

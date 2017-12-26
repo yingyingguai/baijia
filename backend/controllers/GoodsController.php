@@ -3,7 +3,7 @@
 namespace backend\controllers;
 
 use backend\models\Brand;
-use backend\models\Gallery;
+use backend\models\GoodsGallery;
 use backend\models\Goods;
 use backend\models\GoodsDay;
 use backend\models\GoodsIntro;
@@ -110,10 +110,9 @@ class  GoodsController extends Controller
             } else {
                 //上传成功
                 //上传成功 保存到数据库
-                $gallery = new Gallery();
+                $gallery = new GoodsGallery();
                 $gallery->goods_id=$id;
                 $gallery->path = $url;
-
                 $gallery->save();
                 $gid = \Yii::$app->db->getLastInsertID();
                 return Json::encode(['url' => $url,'gid'=>$gid]);
@@ -122,11 +121,6 @@ class  GoodsController extends Controller
             //=========================七牛云==============================
         }
     }
-
-
-
-
-
     //1.显示
     public function actionIndex()
     {
@@ -172,15 +166,19 @@ class  GoodsController extends Controller
                 //2017122500001 补0五位 !!!!!!!!!!!!!!!!!!!!
                 $day = date('Y-m-d');
                 $goodsCount = GoodsDay::findOne(['day' => $day]);
+                //必须是null 0 会报错
                 if ($goodsCount == null) {
+                    //没有就新建一个模型  赋值为1
                     $goodsCount = new GoodsDay();
                     $goodsCount->day = $day;
                     $goodsCount->count = 1;
                     $goodsCount->save();
                 } else {
+                    //如果有 就0查出来 +1
                     $goodsCount->count += 1;
                     $goodsCount->save();
                 }
+                //货号 自增 补0
                 $model->sn = date('Ymd') . sprintf("%04d", $goodsCount->count + 1);
                 //------------------自动生成货号------------------
                 $model->create_time = time();
@@ -246,15 +244,31 @@ class  GoodsController extends Controller
     public function actionGallery($id)
     {
         //1.显示页面
-        $goods = Goods::findOne(['id' => $id]);
-        return $this->render('gallery', ['goods' => $goods]);
+        $goods = GoodsGallery::find()->where(['goods_id' => $id])->All();
+        return $this->render('gallery', ['goods' => $goods,'id'=>$id]);
     }
 
     //AJAX删除图片
-    public function actionDelGallery()
+    public function actionDelGallery($id)
     {
-        $id = \Yii::$app->request->post('id');
-        $model = Gallery::findOne(['id' => $id]);
+        $row = GoodsGallery::find()->where(['id'=>$id])->one();
+        $res = $row->delete();
+        return Json::encode($res);
 
+    }
+
+
+    //>>内容展示
+    public function actionView($id){
+        //找到当前数据
+        $model=Goods::findOne($id);
+        //找到相册
+        $pics = GoodsGallery::find()->where(['goods_id'=>$id])->all();
+
+        //找到详情
+        $content = GoodsIntro::findOne(['goods_id'=>$id]);
+        $model->path= $pics;
+        $model->content=$content->content;
+        return $this->render('view',['model'=>$model]);
     }
 }

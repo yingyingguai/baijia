@@ -10,7 +10,7 @@ $this->registerJsFile('@web/webuploader/webuploader.js', [
     //加载文件位置 依赖jquery
     'depends' => \yii\web\JqueryAsset::className(),
 ]);
-$upload_url = \yii\helpers\Url::to(['goods/upload1']);
+$upload_url = \yii\helpers\Url::to(['goods/upload1','id'=>$id]);
 echo <<<HTML
 <!--dom结构部分-->
 <div id="uploader-demo">
@@ -44,13 +44,13 @@ var uploader = WebUploader.create({
 // 文件上传成功，给item添加成功class, 用样式标记上传成功。
 uploader.on( 'uploadSuccess', function( file ,response) {
     // $( '#'+file.id ).addClass('upload-state-done');
- //console.debug(response);
+   console.debug(response);
   //回显图片 
   var url =response.url;
 
  
   
- $("<tr><td><img src="+url+"></td><td><a href='#'>删除</a></td></tr>").appendTo($('#table'))
+ $("<tr id="+response.gid+"><td><img src="+url+"></td><td><a href='#'>删除</a></td></tr>").appendTo($('#table'))
  
 });
 JS;
@@ -59,31 +59,32 @@ $this->registerJs($js);
 
 \yii\bootstrap\ActiveForm::end();
 ?>
-<table id="table">
-
+<table id="table" class="table">
+    <tr id="menu">
+        <th>图片</th>
+        <th>操作</th>
+    </tr>
+    <?php foreach($goods as $row):?>
+        <tr id="<?=$row->id?>">
+            <td><img src="<?=$row->path?>" alt=""></td>
+            <td><a class="btn btn-warning" href="">删除</a></td>
+        </tr>
+    <?php endforeach;?>
 </table>
 <?php
-$url = \yii\helpers\Url::to(['goods/del-gallery']);
-$js1=
-    <<<JS
-$('tr').on('click','.btn-danger',function() {
-    //找到当前id
-        var id = $(this).closest('tr').attr('id');
-    
-        if (confirm('确认删除')){
-                //删除当前行
-        $(this).closest('tr').remove();
-            //json 传地址 id 
-            $.getJSON('$url?id='+id,function(data) {
-               // console.debug(data)
-            if (data){       
-                  alert("ok")
-              }else {
-                  alert('删除失败')
-              }
-            })
-        }
-})
+$address=\yii\helpers\Url::to(['goods/del-gallery']);
+$js1=<<<JS
+    $("#table").on("click",'tr td a',function(){
+       if(confirm("您确定要删除吗?")){
+           //>>1.找到当前的商品id和相册id
+               var id=$(this) .closest("tr").attr("id");
+               var data_id=$(this).closest("tr").attr("data_id");
+                $(this).closest("tr").remove();
+              //发送ajax请求删除该行；
+              $.getJSON('$address?id='+id+'&did='+data_id,function(data){
+                  
+              })
+       }
+    })
 JS;
 $this->registerJs($js1);
-

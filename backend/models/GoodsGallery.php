@@ -2,7 +2,7 @@
 namespace backend\models;
 use yii\db\ActiveRecord;
 
-class Gallery extends ActiveRecord{
+class GoodsGallery extends ActiveRecord{
 
 }
 
