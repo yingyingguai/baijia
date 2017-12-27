@@ -28,19 +28,56 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => '败家娘们',
+        'brandLabel' => '京东',
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
     $menuItems = [
-        ['label' => '品牌管理', 'url' => ['/brand/index'],],
-        ['label' => '文章管理', 'url' => ['/article-category/index'],],
-        ['label' => '商品管理', 'url' => ['/site/index'],],
-        ['label' => 'RABC', 'url' => ['/site/index'],],
-        ['label' => '用户管理', 'url' => ['/site/index'],],
-        ['label' => '菜单管理', 'url' => ['/site/index'],],
+        [
+            'label'=>'品牌管理',
+            'items'=>[
+                ['label' => '品牌列表', 'url' =>['brand/index']],
+                ['label' => '品牌添加', 'url' =>['brand/add']],
+            ],
+        ],
+
+        ['label' => '文章管理',
+            'items'=>[
+                ['label' => '文章列表', 'url' =>['article/index']],
+                ['label' => '文章添加', 'url' =>['article/add']],
+         ]],
+        ['label' => '文章分类',
+            'items'=>[
+                ['label' => '文章分类列表', 'url' =>['article-category/index']],
+                ['label' => '文章分类添加', 'url' =>['article-category/add']],
+         ]],
+        ['label' => '商品分类',
+            'items'=>[
+                ['label' => '商品分类列表', 'url' =>['goods-category/index']],
+                ['label' => '商品分类添加', 'url' =>['goods-category/add']],
+         ]],
+        ['label' => '商品',
+            'items'=>[
+                ['label' => '商品列表', 'url' =>['goods/index']],
+                ['label' => '商品添加', 'url' =>['goods/add']],
+         ]],
+           ['label' => '用户列表',
+            'items'=>[
+                ['label' => '用户列表', 'url' =>['user/index']],
+                ['label' => '用户添加', 'url' =>['user/add']],
+         ]],
+      ['label' => 'RBAC',
+            'items'=>[
+                ['label' => '权限列表', 'url' =>['rbac/index-permission']],
+                ['label' => '权限添加', 'url' =>['rbac/add-permission']],
+                ['label' => '角色列表', 'url' =>['rbac/index-role']],
+                ['label' => '角色添加', 'url' =>['rbac/add-role']],
+         ]],
+
+        ['label' => '个人中心', 'url' => ['user/center',],],
+
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => '登录', 'url' => ['user/login']];

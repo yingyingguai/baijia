@@ -22,7 +22,7 @@ return [
         ],
         'user' => [
             'identityClass' => 'backend\models\User',
-            'enableAutoLogin' => true,
+            'enableAutoLogin' => true,//启用自动登录
             'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
         ],
         'session' => [
@@ -41,7 +41,6 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-
         'urlManager' => [
             'enablePrettyUrl' => true,//启用美化网址
             'showScriptName' => false,//显示脚本

@@ -21,6 +21,10 @@ use yii\web\IdentityInterface;
  */
 class User extends ActiveRecord implements IdentityInterface
 {
+    public $ne_password; //新密码
+    public $re_password;  //确认密码
+    public $old_password;  //旧密码
+    public $roles;//角色
     /**
      * @inheritdoc
      */
@@ -31,18 +35,52 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            [['username', 'password_hash','email'], 'required',"message"=>"不能为空"],
+            [['username', 'password_hash', 'email'], 'required', "message" => "不能为空"],
             [['status', 'created_at', 'updated_at'], 'integer'],
             [['username', 'password_hash', 'password_reset_token', 'email'], 'string', 'max' => 255],
             [['auth_key'], 'string', 'max' => 32],
             [['username'], 'unique'],
             [['email'], 'unique'],
             [['password_reset_token'], 'unique'],
-            [["last_login_time","last_login_ip"],"safe"],
-            [['auth_key'], 'default', 'value' => 1],
+            [["last_login_time", "last_login_ip","roles"], "safe"],
+            //   [['auth_key'], 'default', 'value' => 1],
+
             [['created_at', 'updated_at'], 'default', 'value' => 1],
+            //>>4.确认密码的验证规则
+            [['re_password', 'ne_password', 'old_password'], 'check']
         ];
     }
+
+    //自定义密码验证规则
+    public function check()
+    {
+
+        //1,旧密码需要和数据库一致
+        //2,新密码和确认密码一致
+        //3.保存到数据库
+        //没填新密码
+        if (!$this->ne_password) {
+
+            $this->addError('ne_password', '新密码不能为空');
+        }
+        elseif (!$this->re_password) { //没填确认密码
+
+            $this->addError('re_password', '确认密码不能为空');
+        } elseif ($this->ne_password && $this->re_password) {
+            //新密码 确认密码，两次密码要一致
+            if ($this->ne_password !== $this->re_password) {
+                $this->addError('re_password', '新密码和确认密码不一致');
+            } else {
+                //如果新密码和确认密码一致，验证旧密码是否填写正确
+                $res = \Yii::$app->security->validatePassword($this->old_password, $this->password_hash);
+                if (!$res) {
+                    $this->addError('old_password', '旧密码填写错误');
+                }
+            }
+
+        }
+    }
+
 
     /**
      * @inheritdoc
@@ -71,7 +109,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findIdentity($id)
     {
-        return self::findOne(['id'=>$id]);
+        return self::findOne(['id' => $id]);
     }
 
     /**
@@ -111,7 +149,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function getAuthKey()
     {
-        // TODO: Implement getAuthKey() method.
+        return $this->auth_key;
     }
 
     /**
@@ -124,6 +162,18 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function validateAuthKey($authKey)
     {
-        // TODO: Implement validateAuthKey() method.
+        return $this->getAuthKey() === $authKey;
+    }
+
+    //自动生成一个新的auth_key
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            if ($this->isNewRecord) {
+                $this->auth_key = \Yii::$app->security->generateRandomString();
+            }
+            return true;
+        }
+        return false;
     }
 }
