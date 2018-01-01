@@ -24,6 +24,7 @@ return [
             'identityClass' => 'backend\models\User',
             'enableAutoLogin' => true,//启用自动登录
             'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
+            'loginUrl'=>['user/login'],
         ],
         'session' => [
             // this is the name of the session cookie used for login on the backend

@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\filters\RbacFilter;
 use backend\models\GoodsCategory;
 use yii\web\Controller;
 use yii\web\Request;
@@ -81,5 +82,15 @@ class GoodsCategoryController extends Controller
     //删除
     public function actionDelete($id){
 
+    }
+    public function behaviors()
+    {
+        return [
+            'rbac'=>[
+                'class'=>RbacFilter::className(),
+                //'only'=>[],
+                'except'=>['login','logout','upload'],
+            ]
+        ];
     }
 }

@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\filters\RbacFilter;
 use backend\models\Brand;
 use backend\models\GoodsGallery;
 use backend\models\Goods;
@@ -271,4 +272,14 @@ class  GoodsController extends Controller
         $model->content=$content->content;
         return $this->render('view',['model'=>$model]);
     }
+//    public function behaviors()
+//    {
+//        return [
+//            'rbac'=>[
+//                'class'=>RbacFilter::className(),
+//                //'only'=>[],
+//                'except'=>['login','logout','upload','uploads'],
+//            ]
+//        ];
+//    }
 }

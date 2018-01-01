@@ -42,7 +42,7 @@ class User extends ActiveRecord implements IdentityInterface
             [['username'], 'unique'],
             [['email'], 'unique'],
             [['password_reset_token'], 'unique'],
-            [["last_login_time", "last_login_ip","roles"], "safe"],
+            [["last_login_time", "last_login_ip", "roles"], "safe"],
             //   [['auth_key'], 'default', 'value' => 1],
 
             [['created_at', 'updated_at'], 'default', 'value' => 1],
@@ -62,8 +62,7 @@ class User extends ActiveRecord implements IdentityInterface
         if (!$this->ne_password) {
 
             $this->addError('ne_password', '新密码不能为空');
-        }
-        elseif (!$this->re_password) { //没填确认密码
+        } elseif (!$this->re_password) { //没填确认密码
 
             $this->addError('re_password', '确认密码不能为空');
         } elseif ($this->ne_password && $this->re_password) {
@@ -81,6 +80,28 @@ class User extends ActiveRecord implements IdentityInterface
         }
     }
 
+
+    public function getMenus()
+    {
+        //先给一个空值
+        $menuItems = [];
+        //1.先循环一次
+        $menus = Menu::find()->where(['parent_id' => 0])->all();
+        foreach ($menus as $menu) {
+        //获取一级分类的子分类
+          $children =  Menu::find()->where(['parent_id'=>$menu->id])->all();
+          $items =[];
+            foreach ($children as $child){
+                if (\Yii::$app->user->can($child->url)){
+                    $items[] =   ['label' =>$child->label, 'url' => [$child->url]];
+                }
+          }
+            if ($items){
+                $menuItems[] = ['label' => $menu->label, 'items'=> $items];
+            }
+        }
+        return $menuItems;
+    }
 
     /**
      * @inheritdoc

@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\filters\RbacFilter;
 use backend\models\ArticleCategory;
 use yii\web\Controller;
 use yii\web\Request;
@@ -67,5 +68,14 @@ class ArticleCategoryController extends Controller
         // var_dump($res);die;
         echo $res;
 
+    }
+    public function behaviors()
+    {
+        return [
+            'rbac'=>[
+                'class'=>RbacFilter::className(),
+                'except'=>['login','logout','upload'],
+            ]
+        ];
     }
 }

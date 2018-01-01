@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\filters\RbacFilter;
 use backend\models\LoginForm;
 use backend\models\User;
 
@@ -98,8 +99,10 @@ class UserController extends Controller
         if ($request->isPost) {
             $model->load($request->post());
             if ($model->validate()) {
-                $password_hash = \Yii::$app->security->generatePasswordHash($model->password_hash);
-                $model->password_hash = $password_hash;
+
+//                $password_hash = \Yii::$app->security->generatePasswordHash($model->password_hash);
+//                $model->password_hash = $password_hash;
+
                 $model->save(false);
 
                 //修改角色
@@ -112,12 +115,11 @@ class UserController extends Controller
                         $authManager->assign($role, $id);
                     }
                 }
-
                 \Yii::$app->session->setFlash('success', '修改成功');
                 return $this->redirect(['user/index']);
             }
         }
-        return $this->render('add', ['model' => $model,'roles'=>$roles]);
+        return $this->render('update', ['model' => $model,'roles'=>$roles]);
     }
 
     //登录
@@ -196,5 +198,16 @@ class UserController extends Controller
 
 
     }
+
+//    public function behaviors()
+//    {
+//        return [
+//            'rbac'=>[
+//                'class'=>RbacFilter::className(),
+//                //'only'=>[],
+//                'except'=>['login','logout','upload'],
+//            ]
+//        ];
+//    }
 
 }

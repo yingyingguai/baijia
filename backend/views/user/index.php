@@ -3,6 +3,7 @@
         <td>id</td>
         <td>用户名</td>
         <td>email</td>
+        <td>状态</td>
         <td>最后登录时间</td>
         <td>最后登录ip</td>
         <td>操作</td>
@@ -12,6 +13,9 @@
             <td><?=$row->id?></td>
             <td><?=$row->username?></td>
             <td><?=$row->email?></td>
+            <td><?= $row->status == 0 ? '禁用' : '' ?>
+                <?= $row->status == 1 ? '启用' : '' ?>
+            </td>
             <td><?=date('Y-m-d H:i:s',$row->last_login_time)?></td>
             <td><?=$row->last_login_ip?></td>
             <td  style="text-align: center">

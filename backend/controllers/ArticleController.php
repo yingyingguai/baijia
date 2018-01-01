@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\filters\RbacFilter;
 use backend\models\Article;
 use backend\models\ArticleCategory;
 use backend\models\ArticleDetail;
@@ -104,6 +105,16 @@ class ArticleController extends Controller
         $res = $row->save(false);
         // var_dump($res);die;
         echo $res;
+    }
+    public function behaviors()
+    {
+        return [
+            'rbac'=>[
+                'class'=>RbacFilter::className(),
+                //'only'=>[],
+                'except'=>['login','logout','upload'],
+            ]
+        ];
     }
 
 }

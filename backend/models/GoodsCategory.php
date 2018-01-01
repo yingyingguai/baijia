@@ -14,7 +14,7 @@ class  GoodsCategory extends ActiveRecord
             [['tree', 'lft', 'rgt', 'depth', 'parent_id'], 'integer'],
             ['intro', 'string'],
             ['name', 'string'],
-            ['parent_id','check']
+           ['parent_id','check']
         ];
     }
     //自定义验证规则

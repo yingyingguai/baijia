@@ -13,6 +13,7 @@ return [
     'controllerNamespace' => 'frontend\controllers',
     //设置语言
     'language'=>'zh-CN',
+    'layout'=>false,
     //修改默认路由
     // 'defaultRoute'=>'index',
     'components' => [

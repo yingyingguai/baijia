@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\filters\RbacFilter;
 use backend\models\PermissionForm;
 use backend\models\RoleForm;
 use Codeception\Module\REST;
@@ -107,7 +108,7 @@ class RbacController extends Controller
         $role = new Role();
         $model = new RoleForm();
         $request = new Request();
-        //  $model->scenario = RoleForm::SCENARIO_ADD_PERMISSION;
+   $model->scenario = RoleForm::SCENARIO_ADD_ROLE;
         $authManager = \Yii::$app->authManager;
         $options = ArrayHelper::map($authManager->getPermissions(), 'name', 'description');
         if ($request->isPost) {
@@ -153,6 +154,9 @@ class RbacController extends Controller
         //1.1 新建一个权限
         $model = new RoleForm();
         $request = new  Request();
+        //场景
+        $model->scenario = RoleForm::SCENARIO_EDIT_ROLE;
+
         // var_dump($model);die;
         $role = $authManager->getRole($name);
         $options = ArrayHelper::map($authManager->getPermissions(), 'name', 'description');
@@ -204,5 +208,14 @@ class RbacController extends Controller
     }
 
 
-    //5.用户和角色关联
+    public function behaviors()
+    {
+        return [
+            'rbac'=>[
+                'class'=>RbacFilter::className(),
+                //'only'=>[],
+                'except'=>['login','logout','upload'],
+            ]
+        ];
+    }
 }
