@@ -705,20 +705,14 @@
         <!-- 商品列表 end-->
 
         <!-- 分页信息 start -->
-        <div class="page mt20">
-            <a href="">首页</a>
-            <a href="">上一页</a>
-            <a href="">1</a>
-            <a href="">2</a>
-            <a href="" class="cur">3</a>
-            <a href="">4</a>
-            <a href="">5</a>
-            <a href="">下一页</a>
-            <a href="">尾页</a>&nbsp;&nbsp;
-            <span>
-					<em>共8页&nbsp;&nbsp;到第 <input type="text" class="page_num" value="3"/> 页</em>
-					<a href="" class="skipsearch" href="javascript:;">确定</a>
-				</span>
+
+        <div class="pagebar">
+            <?php echo \yii\widgets\LinkPager::widget([
+                'pagination'=>$pager,
+                'nextPageLabel'=>'下一页',
+                'prevPageLabel'=>'上一页',
+            ])?>
+
         </div>
         <!-- 分页信息 end -->
 
@@ -817,3 +811,8 @@
         <a href=""><img src="/images/beian.gif" alt="" /></a>
     </p>
 </div>
+
+<body>
+
+</body>
+

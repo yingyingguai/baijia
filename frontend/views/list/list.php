@@ -567,14 +567,21 @@
                     <a href="javascript:;" id="backward" class="off"></a>
                     <a href="javascript:;" id="forward" class="on"></a>
                     <div class="smallpic_wrap">
-                        <ul>
-                            <?php foreach($gallerys as $pic):?>
-                                <li class="cur">
-                                    <a class="zoomThumbActive" href="javascript:void(0);" rel="{gallery: 'gal1', smallimage: '<?=$pic->path?>',largeimage: '<?=$pic->path?>'}"><img src="<?=$pic->path?>"></a>
-                                </li>
-                            <?php endforeach?>
 
+                        <ul>
+                            <li class="cur">
+                                <a class="" href="javascript:void(0);" rel="{gallery: 'gal1', smallimage: '<?=$one?>',largeimage: '<?=$one?>'}"><img src="<?=$one?>"></a>
+                            </li>
+                            <?php foreach($gallerys as $pic):?>
+                            <li>
+                                <a href="javascript:void(0);" rel="{gallery: 'gal1', smallimage: '<?=$pic->path?>',largeimage: '<?=$pic->path?>'}" class=""><img src="<?=$pic->path?>"></a>
+                            </li>
+                            <?php endforeach?>
                         </ul>
+
+
+
+
                     </div>
 
                 </div>
@@ -801,15 +808,7 @@
 
                     <!-- 分页信息 start -->
                     <div class="page mt20">
-                        <a href="">首页</a>
-                        <a href="">上一页</a>
-                        <a href="">1</a>
-                        <a href="">2</a>
-                        <a href="" class="cur">3</a>
-                        <a href="">4</a>
-                        <a href="">5</a>
-                        <a href="">下一页</a>
-                        <a href="">尾页</a>
+
                     </div>
                     <!-- 分页信息 end -->
 

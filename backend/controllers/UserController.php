@@ -41,7 +41,7 @@ class UserController extends Controller
                 //>>保存
                 $model->save(false);
 
-                       //添加角色
+                //添加角色
                 //1.获取角色
                 $roles = $model->roles;
 
@@ -92,8 +92,8 @@ class UserController extends Controller
         //将权限便利出来 放入权限中
         $model->roles=[];
 
-            foreach ($arr as $v) {
-                $model->roles[] = $v->name;
+        foreach ($arr as $v) {
+            $model->roles[] = $v->name;
         }
 
         if ($request->isPost) {

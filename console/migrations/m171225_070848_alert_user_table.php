@@ -8,6 +8,7 @@ class m171225_070848_alert_user_table extends Migration
     {
         $this->addColumn('user','last_login_time','integer');
         $this->addColumn('user','last_login_ip','integer');
+        $this->addColumn('user','status','integer');
     }
 
     public function down()

@@ -13,6 +13,11 @@ class GoodsCategoryController extends Controller
     //1.添加
     public function actionAdd()
     {
+        //清除redis
+        $redis = new \Redis();
+        $redis->connect('127.0.0.1');
+        $redis->del('category_html');
+
         $model = new GoodsCategory();
         $request = new Request();
         if ($request->isPost) {
@@ -49,6 +54,10 @@ class GoodsCategoryController extends Controller
     }
     //修改
     public function actionEdit($id){
+        //清除redis
+        $redis = new \Redis();
+        $redis->connect('127.0.0.1');
+        $redis->del('category_html');
         $model =GoodsCategory::findOne($id);
         $request = new Request();
         if ($request->isPost) {

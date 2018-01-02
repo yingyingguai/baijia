@@ -278,7 +278,7 @@ class  GoodsController extends Controller
 //            'rbac'=>[
 //                'class'=>RbacFilter::className(),
 //                //'only'=>[],
-//                'except'=>['login','logout','upload','uploads'],
+//                'except'=>['login','logout','upload1','uploads'],
 //            ]
 //        ];
 //    }
