@@ -127,7 +127,8 @@ class OrderController extends Controller{
 
             } catch (Exception $e) {
                 $transaction->rollBack();
-                return $this->redirect(['order/index']);
+                echo '库存不足,';
+                return $this->redirect(['user/cart']);
               //  throw new Exception($e->getMessage());
 
             }

@@ -21,7 +21,7 @@ return [
             'csrfParam' => '_csrf-frontend',
         ],
         'user' => [
-            'identityClass' => 'frontend\models\member',
+            'identityClass' => 'frontend\models\Member',
             'enableAutoLogin' => true,//自动登录
             'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
         ],
