@@ -1,11 +1,7 @@
 <?php
-
 namespace frontend\controllers;
-
 use backend\models\Goods;
-
 use frontend\models\Address;
-
 use frontend\models\Cart;
 use frontend\models\LoginForm;
 use frontend\models\Member;

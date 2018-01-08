@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="/style/index.css" type="text/css">
     <link rel="stylesheet" href="/style/bottomnav.css" type="text/css">
     <link rel="stylesheet" href="/style/footer.css" type="text/css">
-
     <script type="text/javascript" src="/js/jquery-1.8.3.min.js"></script>
     <script type="text/javascript" src="/js/header.js"></script>
     <script type="text/javascript" src="/js/index.js"></script>
@@ -19,7 +18,6 @@
 <div class="topnav">
     <div class="topnav_bd w1210 bc">
         <div class="topnav_left">
-
         </div>
         <div class="topnav_right fr">
             <ul>
@@ -29,15 +27,12 @@
                 <li>我的订单</li>
                 <li class="line">|</li>
                 <li>客户服务</li>
-
             </ul>
         </div>
     </div>
 </div>
 <!-- 顶部导航 end -->
-
 <div style="clear:both;"></div>
-
 <!-- 头部 start -->
 <div class="header w1210 bc mt15">
     <!-- 头部上半部分 start 包括 logo、搜索、用户中心和购物车结算 -->
@@ -52,9 +47,7 @@
                 </form>
                 <div class="form_right fl"></div>
             </div>
-
             <div style="clear:both;"></div>
-
             <div class="hot_search">
                 <strong>热门搜索:</strong>
                 <a href="">D-Link无线路由</a>
@@ -64,7 +57,6 @@
             </div>
         </div>
         <!-- 头部搜索 end -->
-
         <!-- 用户中心 start-->
         <div class="user fl">
             <dl>
@@ -84,14 +76,12 @@
                             <li><a href="<?=Yii::$app->user->isGuest?\yii\helpers\Url::to(['user/login']):\yii\helpers\Url::to(['user/address','id'=>Yii::$app->user->identity->id])?>">收货地址></a></li>
                             <li><a href="">我的收藏></a></li>
                         </ul>
-
                         <ul class="fl">
                             <li><a href="">我的留言></a></li>
                             <li><a href="">我的红包></a></li>
                             <li><a href="">我的评论></a></li>
                             <li><a href="">资金管理></a></li>
                         </ul>
-
                     </div>
                     <div style="clear:both;"></div>
                     <div class="viewlist mt10">
@@ -124,9 +114,7 @@
         <!-- 购物车 end -->
     </div>
     <!-- 头部上半部分 end -->
-
     <div style="clear:both;"></div>
-
     <!-- 导航条部分 start -->
     <div class="nav w1210 bc mt10">
         <!--  商品分类部分 start-->
@@ -135,14 +123,9 @@
                 <h2>全部商品分类</h2>
                 <em></em>
             </div>
-
             <div class="cat_bd" <?=Yii::$app->request->getPathInfo()==''?"style='display:block;'":"style='display:none;'"?>>
-
-
                 <?=\backend\models\GoodsCategory::getCategorys()?>
-
             </div>
-
         </div>
         <!--  商品分类部分 end-->
 
