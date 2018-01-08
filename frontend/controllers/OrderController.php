@@ -60,7 +60,7 @@ class OrderController extends Controller{
             $pays = Order::$payments[$pay];
             //获取购物车的数据
 
-          $cart = \Cart::find()->where(['member_id' => $member_id])->all();
+          $cart = Cart::find()->where(['member_id' => $member_id])->all();
             $goods_id = [];
             foreach ($cart as $v) {
                 $goods_id[$v->goods_id] = $v->amount;
