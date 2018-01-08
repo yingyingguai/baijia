@@ -21,7 +21,7 @@ class m171220_132400_create_article_table extends Migration
             'status'=>$this->integer(2)->comment('状态 -1 删除 0 隐藏 1 正常'),
             'create_time'=>$this->integer(11)->comment('创建时间'),
 
-        ]);
+        ],'ENGINE=INNODB');
     }
 
     /**

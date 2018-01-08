@@ -17,7 +17,7 @@ class LoginForm extends Model
         return [
             [['username', 'password_hash'], 'required'], //不能为空
             //验证码
-    ['code', 'captcha', 'captchaAction' => 'user/captcha'],
+            ['code', 'captcha', 'captchaAction' => 'user/captcha'],
             [['remember'], 'default', 'value' => null],
         ];
     }

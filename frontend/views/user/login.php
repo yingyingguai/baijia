@@ -8,26 +8,14 @@
     <link rel="stylesheet" href="/style/header.css" type="text/css">
     <link rel="stylesheet" href="/style/login.css" type="text/css">
     <link rel="stylesheet" href="/style/footer.css" type="text/css">
+    <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
+    <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
+    <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/localization/messages_zh.js"></script>
+
 </head>
 <body>
 <!-- 顶部导航 start -->
-<div class="topnav">
-    <div class="topnav_bd w990 bc">
-        <div class="topnav_left">
 
-        </div>
-        <div class="topnav_right fr">
-            <ul>
-                <li>您好，欢迎来到京西！[<a href="login.html">登录</a>] [<a href="register.html">免费注册</a>] </li>
-                <li class="line">|</li>
-                <li>我的订单</li>
-                <li class="line">|</li>
-                <li>客户服务</li>
-
-            </ul>
-        </div>
-    </div>
-</div>
 <!-- 顶部导航 end -->
 
 <div style="clear:both;"></div>
@@ -59,12 +47,12 @@
                         <input type="password" class="txt" name="password" />
                         <a href="">忘记密码?</a>
                     </li>
-                    <!-- <li class="checkcode">
-                         <label for="">验证码：</label>
-                         <input type="text"  name="checkcode" />
-                         <img src="/images/checkcode1.jpg" alt="" />
-                         <span>看不清？<a href="">换一张</a></span>
-                     </li>-->
+<!--                    <li class="checkcode">-->
+<!--                        <label for="">验证码：</label>-->
+<!--                        <input type="text"  name="checkcode" />-->
+<!--                        <img id="img_captcha"  alt="" />-->
+<!--                        <span>看不清？<a href="javascript:;" id="change_captcha">换一张</a></span>-->
+<!--                    </li>-->
                     <li>
                         <label for="">&nbsp;</label>
                         <input type="checkbox" class="chb" name="remember" value="1"/> 保存登录信息
@@ -103,7 +91,7 @@
 
 <div style="clear:both;"></div>
 <!-- 底部版权 start -->
-<div class="footer w1210 bc mt15">
+<div class="footer w1210 bc mt10">
     <p class="links">
         <a href="">关于我们</a> |
         <a href="">联系我们</a> |
@@ -121,13 +109,35 @@
         © 2005-2013 京东网上商城 版权所有，并保留所有权利。  ICP备案证书号:京ICP证070359号
     </p>
     <p class="auth">
-        <a href=""><img src="/images/xin.png" alt="" /></a>
-        <a href=""><img src="/images/kexin.jpg" alt="" /></a>
-        <a href=""><img src="/images/police.jpg" alt="" /></a>
-        <a href=""><img src="/images/beian.gif" alt="" /></a>
+        <a href=""><img src="images/xin.png" alt="" /></a>
+        <a href=""><img src="images/kexin.jpg" alt="" /></a>
+        <a href=""><img src="images/police.jpg" alt="" /></a>
+        <a href=""><img src="images/beian.gif" alt="" /></a>
     </p>
 </div>
-<!-- 底部版权 end -->
 
+<!-- 底部版权 end -->
+<!--<script type="text/javascript">
+    var hash;
+    // 验证码验证
+    jQuery.validator.addMethod("captcha", function(value, element) {
+        var v =value;
+        var h;
+        for (var i = v.length - 1, h = 0; i >= 0; --i) {
+            h += v.charCodeAt(i);
+        }
+        return h == hash;
+    }, "验证码不正确");
+    //点击切换验证码
+    $('#change_captcha').click(function () {
+        $.getJSON("<?/*=\yii\helpers\Url::to(['site/captcha','refresh'=>1])*/?>",function (json) {
+            //改变图片验证码
+            $("#img_captcha").attr('src', json.url);
+            //保存hash
+            hash = json.hash1;
+        })
+    })
+    $('#change_captcha').click();
+</script>-->
 </body>
 </html>

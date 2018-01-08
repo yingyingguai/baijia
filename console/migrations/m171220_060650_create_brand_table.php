@@ -21,7 +21,7 @@ class m171220_060650_create_brand_table extends Migration
             'sort'=>$this->integer(11)->comment('排序'),
             'status'=>$this->integer(1)->comment('状态 -1删除 0 隐藏 1 显示'),
 
-        ]);
+        ],'ENGINE=INNODB');
     }
 
     /**

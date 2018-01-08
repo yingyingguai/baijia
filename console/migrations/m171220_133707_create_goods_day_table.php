@@ -16,7 +16,7 @@ class m171220_133707_create_goods_day_table extends Migration
             'id' => $this->primaryKey(),
             'day'=>$this->string()->comment('日期'),
             'count'=>$this->integer()->comment('商品数'),
-        ]);
+        ],'ENGINE=INNODB');
     }
 
     /**

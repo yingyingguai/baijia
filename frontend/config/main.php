@@ -13,7 +13,7 @@ return [
     'controllerNamespace' => 'frontend\controllers',
     //设置语言
     'language'=>'zh-CN',
-    'layout'=>false,
+    'layout'=>'header',
     //修改默认路由
     // 'defaultRoute'=>'index',
     'components' => [
@@ -21,8 +21,8 @@ return [
             'csrfParam' => '_csrf-frontend',
         ],
         'user' => [
-            'identityClass' => 'common\models\User',
-            'enableAutoLogin' => true,
+            'identityClass' => 'frontend\models\member',
+            'enableAutoLogin' => true,//自动登录
             'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
         ],
         'session' => [
@@ -41,6 +41,14 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
+        'sms'=>[
+            'class'=>\frontend\components\Sms::className(),
+            'ak'=>'LTAIJVSZahaVBnly',
+            'sk'=>'TRGwMQAefHBjm26qQJuLhBckaVieM2',
+            'sign'=>'源氏特产',
+            'template'=>'SMS_120125269',
+        ],
+
 
         'urlManager' => [
             'enablePrettyUrl' => true,

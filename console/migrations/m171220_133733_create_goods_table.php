@@ -28,7 +28,7 @@ class m171220_133733_create_goods_table extends Migration
             'create_time' => $this->integer()->comment('添加时间'),
             'view_time' => $this->integer()->comment('浏览次数'),
 
-        ]);
+        ],'ENGINE=INNODB');
     }
 
     /**

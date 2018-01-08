@@ -13,6 +13,8 @@ use yii\web\Controller;
 
 class ListController extends Controller
 {
+    //必须写这个 ,不然400错误
+    public $enableCsrfValidation = false;
 
     //商品列表
     public function actionIndex($id)
@@ -40,27 +42,17 @@ class ListController extends Controller
     //商品详情
     public function actionShow($id)
     {
-        //获取商品
-        $goods = Goods::findOne($id);
-        //商品简介
-        $intro = GoodsIntro::find()->where(['goods_id' => $id])->one();
-        //商品图片
 
-        $gallerys = GoodsGallery::find()->select(['path'])->where(['goods_id' => $id])->all();
+        $intro = GoodsIntro::find()->where(['goods_id'=>$id])->one();
+        $gallerys = GoodsGallery::find()->where(['goods_id'=>$id])->all();
+        $row = Goods::find()->where(['id'=>$id])->one();
+    //  var_dump($row);
+        $brand = Brand::find()->where(['id'=>$row->brand_id])->asArray()->one();
+     //  var_dump($brand);
+        $row->brand_id = $brand['name'];
+        Goods::updateAllCounters(['view_time'=>1],['id'=>$id]);
 
-        //   var_dump($gallerys);die;
-        //品牌
-        $row = Goods::find()->where(['id' => $id])->one();
-        $brand = Brand::find()->where(['id' => $row->brand_id])->one();
-        //找到第一张
-        $one = $gallerys[0]->path;
-//var_dump($one);die;
-        //删除第一张
-        array_shift($gallerys);
-
-        $row->brand_id = $brand->name;
-        return $this->render('list', ['one' => $one, 'goods' => $goods, 'row' => $row, 'intro' => $intro, 'gallerys' => $gallerys]);
-    }
+        return $this->render('list',['row'=>$row,'intro'=>$intro,'gallerys'=>$gallerys]);  }
 
 
 

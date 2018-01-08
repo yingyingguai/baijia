@@ -6,80 +6,17 @@ use Yii;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 
-/**
- * This is the model class for table "user".
- *
- * @property integer $id
- * @property string $username
- * @property string $auth_key
- * @property string $password_hash
- * @property string $password_reset_token
- * @property string $email
- * @property integer $status
- * @property integer $created_at
- * @property integer $updated_at
- */
 class Member extends ActiveRecord implements IdentityInterface
 {
+         public $checkcode;
 
-    /**
-     * @inheritdoc
-     */
-
-    /**
-     * @inheritdoc
-     */
     public function rules()
     {
         return [
-            [['username', 'password_hash', 'email'], 'required', "message" => "不能为空"],
-            [['status', 'create_at', 'update_at'], 'integer'],
-            [['username', 'password_hash', 'email'], 'string', 'max' => 255],
-            [['auth_key'], 'string', 'max' => 32],
-            [['username'], 'unique'],
-            [['email'], 'unique'],
-//            [['password_reset_token'], 'unique'],
-            [["last_login_time", "last_login_ip"], "safe"],
-            //   [['auth_key'], 'default', 'value' => 1],
-
-          //  [['create_at', 'updated_at'], 'default', 'value' => null],
-            //>>4.确认密码的验证规则
-         //   [['re_password', 'ne_password', 'old_password'], 'check']
+            [['username', 'password_hash', 'email','tel'], 'required', "message" => "不能为空"],
+      ['checkcode','captcha','captchaAction'=>'user/captcha']
         ];
     }
-
-    //自定义密码验证规则
-    public function check()
-    {
-
-        //1,旧密码需要和数据库一致
-        //2,新密码和确认密码一致
-        //3.保存到数据库
-        //没填新密码
-        if (!$this->ne_password) {
-
-            $this->addError('ne_password', '新密码不能为空');
-        } elseif (!$this->re_password) { //没填确认密码
-
-            $this->addError('re_password', '确认密码不能为空');
-        } elseif ($this->ne_password && $this->re_password) {
-            //新密码 确认密码，两次密码要一致
-            if ($this->ne_password !== $this->re_password) {
-                $this->addError('re_password', '新密码和确认密码不一致');
-            } else {
-                //如果新密码和确认密码一致，验证旧密码是否填写正确
-                $res = \Yii::$app->security->validatePassword($this->old_password, $this->password_hash);
-                if (!$res) {
-                    $this->addError('old_password', '旧密码填写错误');
-                }
-            }
-
-        }
-    }
-
-
-
-
     /**
      * @inheritdoc
      */

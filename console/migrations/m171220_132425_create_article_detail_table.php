@@ -15,7 +15,7 @@ class m171220_132425_create_article_detail_table extends Migration
         $this->createTable('article_detail', [
             'article_id' => $this->primaryKey()->comment('文章id'),
             'content'=>$this->string()->comment('简介'),
-        ]);
+        ],'ENGINE=INNODB');
     }
 
     /**

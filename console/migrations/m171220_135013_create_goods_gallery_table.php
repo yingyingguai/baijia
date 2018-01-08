@@ -16,7 +16,7 @@ class m171220_135013_create_goods_gallery_table extends Migration
             'id' => $this->primaryKey(),
             'goods_id'=>$this->integer()->comment('商品id'),
             'path'=>$this->string(255)->comment('图片地址'),
-        ]);
+        ],'ENGINE=INNODB');
     }
 
     /**

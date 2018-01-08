@@ -24,7 +24,7 @@ class m171220_133132_create_goods_category_table extends Migration
 
 
 
-        ]);
+        ],'ENGINE=INNODB');
     }
 
     /**

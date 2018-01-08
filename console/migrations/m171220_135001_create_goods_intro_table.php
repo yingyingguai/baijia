@@ -15,7 +15,7 @@ class m171220_135001_create_goods_intro_table extends Migration
         $this->createTable('goods_intro', [
             'goods_id' => $this->primaryKey()->comment('商品id'),
             'content'=>$this->string()->comment('商品描述'),
-        ]);
+        ],'ENGINE=INNODB');
     }
 
     /**
