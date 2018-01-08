@@ -22,7 +22,6 @@ class  GoodsController extends Controller
 {
 
     public $enableCsrfValidation = false;
-
     //上传图片
     public function actions()
     {
@@ -38,7 +37,6 @@ class  GoodsController extends Controller
             ]
         ];
     }
-
     //处理logo图片
     public function actionUploads()
     {
@@ -146,7 +144,6 @@ class  GoodsController extends Controller
         //调用视图
         return $this->render("index", ['goods' => $goods, 'pager' => $pager]);
     }
-
     //添加
     public function actionAdd()
     {
@@ -200,7 +197,6 @@ class  GoodsController extends Controller
         }
         return $this->render('add', ['model' => $model, 'brands' => $brands]);
     }
-
     //修改
     public function actionEdit($id)
     {
@@ -234,13 +230,11 @@ class  GoodsController extends Controller
         }
         return $this->render('add', ['model' => $model, 'brands' => $brands]);
     }
-
     //删除
     public function actionDelete($id)
     {
 
     }
-
     //商品相册
     public function actionGallery($id)
     {
@@ -257,8 +251,6 @@ class  GoodsController extends Controller
         return Json::encode($res);
 
     }
-
-
     //>>内容展示
     public function actionView($id){
         //找到当前数据

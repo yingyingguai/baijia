@@ -78,11 +78,13 @@ class OrderController extends Controller{
             $transaction = \Yii::$app->db->beginTransaction();
             //遍历循环商品得到每一条的库存
             try {
+                $model = new Order();
+                $model->save(false);
                 foreach ($goods as $stock) {
                     $carts = Cart::findOne(['goods_id' => $stock->id]);
                   //  var_dump($carts);die;
                     if (($stock->stock) > ($carts->amount)) {
-                        $model = new Order();
+//                        $model = new Order();
                         $model1 = new OrderGoods();
 
                         $model->member_id = $member_id;
@@ -102,7 +104,7 @@ class OrderController extends Controller{
                         $model->total = $total[$stock->id];
                         $model->status = 1;
                         $model->create_time = time();
-                        $model->save(false);
+//                        $model->save(false);
                         $model1->order_id = $model->id;
                         $model1->goods_id = $stock->id;
                         $model1->goods_name = $stock->name;

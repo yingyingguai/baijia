@@ -149,7 +149,7 @@ class UserController extends Controller
                 return Json::encode(['status' => false, 'msg' => $model->getErrors()]);
             }
         }
-        return $this->renderPartial('address');
+        return $this->render('address');
     }
 
     //回显

@@ -18,7 +18,7 @@
 
 <!-- 顶部导航 end -->
 
-<div style="clear:both;"></div>
+
 
 <!-- 页面头部 start -->
 <div class="header w990 bc mt15">
