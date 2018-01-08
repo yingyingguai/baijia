@@ -6,6 +6,7 @@ use backend\models\Goods;
 
 use frontend\models\Address;
 
+use frontend\models\Cart;
 use frontend\models\LoginForm;
 use frontend\models\Member;
 use yii\captcha\CaptchaAction;
@@ -359,7 +360,7 @@ class UserController extends Controller
             }
         }else{
             //>>登陆后根据登陆用户id从数据库查表获取购物车信息
-            $carts = \Cart::find()->where(['member_id'=>\Yii::$app->user->identity->id])->all();
+            $carts = Cart::find()->where(['member_id'=>\Yii::$app->user->identity->id])->all();
             $good_ids = [];
             //>>获取所有商品id
             $count=[];

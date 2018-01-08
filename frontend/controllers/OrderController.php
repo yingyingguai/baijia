@@ -6,7 +6,6 @@ use frontend\models\Cart;
 use frontend\models\Order;
 use frontend\models\OrderGoods;
 use yii\db\Exception;
-
 use yii\web\Controller;
 
 class OrderController extends Controller{
@@ -60,7 +59,8 @@ class OrderController extends Controller{
             //获取支付方式
             $pays = Order::$payments[$pay];
             //获取购物车的数据
-            $cart = \Cart::find()->where(['member_id' => $member_id])->all();
+
+          $cart = \Cart::find()->where(['member_id' => $member_id])->all();
             $goods_id = [];
             foreach ($cart as $v) {
                 $goods_id[$v->goods_id] = $v->amount;
