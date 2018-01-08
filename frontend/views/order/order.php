@@ -93,27 +93,17 @@
 						</tr>
 					</thead>
 					<tbody>
-                    <?php foreach ($models as $model):?>
-						<tr>
-							<td><a href=""><?=$model->id?></a></td>
-                            <?php   $logo=\frontend\models\OrderGoods::findOne(['order_id'=>$model->id]); ?>
-							<td><a href="">
-                                    <?php
-                                    if(substr($logo->logo,0,7)=='http://'){
-
-                                        echo  "<img src='$logo->logo' alt='' />";
-                                    }else{
-                                        echo  "<img src='http://admin.yiishop.com$logo->logo' alt='' />";
-                                    }
-                                    ?>
-                                </a></td>
-							<td><?=$model->name?></td>
-							<td>￥<?=$model->total?><?=$model->payment_name?></td>
-							<td><?=date('Y-m-d',$model->create_time)?></td>
-							<td><?=$model->status?></td>
-							<td><a href="">查看</a> |<a href="/order/delete?id=<?=$model->id?>">删除</a></td>
-						</tr>
-                     <?php endforeach;?>
+                    <?php foreach($orders as $order):?>
+                        <tr>
+                            <td><a href=""><?=$order->id?></a></td>
+                            <td><a href=""><img src="<?=$order->logo?>" alt="" /></a></td>
+                            <td><?=$order->name?></td>
+                            <td>￥<?=$order->total?> <?=$order->payment_name?></td>
+                            <td><?=date('Y-m-d H:i:s',$order->create_time)?></td>
+                            <td><?=$order->status==1?'未处理':'已发货'?></td>
+                            <td><a href="">查看</a> | <a href="<?=\yii\helpers\Url::to(['order/delete', 'id' => $order->id])?>">删除</a></td>
+                        </tr>
+                    <?php endforeach;?>
 					</tbody> 
 				</table>
 			</div>

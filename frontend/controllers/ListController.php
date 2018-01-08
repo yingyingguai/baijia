@@ -54,6 +54,25 @@ class ListController extends Controller
 
         return $this->render('list',['row'=>$row,'intro'=>$intro,'gallerys'=>$gallerys]);  }
 
+    //搜索功能  将搜索商品 展示在index页面
+    public function actionSearch($name){
+            //找到搜索条数
+        $count = Goods::find()->where(['like','name',$name])->count();
+        //分页的
+        $pager = new Pagination([
+            'pageSize' => 2,
+            'totalCount' => $count,
+        ]);
+
+        $rows = Goods::find()
+            ->where(['like', 'name', $name])
+            ->limit($pager->limit)
+            ->offset($pager->offset)
+            ->all();
+        //1.视图页面
+    return  $this->render('index', ['rows' => $rows, 'pager' => $pager]);
+    }
+
 
 
 }

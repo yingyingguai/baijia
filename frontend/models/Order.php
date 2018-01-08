@@ -27,6 +27,7 @@ use Yii;
  */
 class Order extends \yii\db\ActiveRecord
 {
+    public $logo;
     //送货方式
     public static $deliveries=[
         1=>['name'=>'天天快递','price'=>'28.00','detail'=>'天天牛逼'],

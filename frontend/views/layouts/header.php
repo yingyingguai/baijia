@@ -42,9 +42,12 @@
         <div class="search fl">
             <div class="search_form">
                 <div class="form_left fl"></div>
-                <form action="" name="serarch" method="get" class="fl">
-                    <input type="text" class="txt" name="keywords" value="请输入商品关键字" /><input type="submit" class="btn" value="搜索" />
+
+                <form action="<?=\yii\helpers\Url::to('list/search')?>" name="search" method="get" class="fl">
+                    <input type="text" class="txt" name="name" value="请输入商品关键字" /><input type="submit" class="btn" value="搜索" />
                 </form>
+
+
                 <div class="form_right fl"></div>
             </div>
             <div style="clear:both;"></div>
@@ -72,7 +75,7 @@
                     <div class="uclist mt10">
                         <ul class="list1 fl">
                             <li><a href="">用户信息></a></li>
-                            <li><a href="<?=\yii\helpers\Url::to('user/order')?>">我的订单></a></li>
+                            <li><a href="<?=\yii\helpers\Url::to('order/order')?>">我的订单></a></li>
                             <li><a href="<?=Yii::$app->user->isGuest?\yii\helpers\Url::to(['user/login']):\yii\helpers\Url::to(['user/address','id'=>Yii::$app->user->identity->id])?>">收货地址></a></li>
                             <li><a href="">我的收藏></a></li>
                         </ul>
