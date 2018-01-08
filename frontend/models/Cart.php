@@ -1,5 +1,5 @@
 <?php
-namespace frontend\models;
+
 use backend\models\Goods;
 use yii\db\ActiveRecord;
 
@@ -20,7 +20,7 @@ class Cart extends ActiveRecord{
     //关联用户表
       public function getUser()
     {
-        return $this->hasOne(Member::className(), ['id'=>'member_id']);
+        return $this->hasOne(\frontend\models\Member::className(), ['id'=>'member_id']);
     }
 
 
