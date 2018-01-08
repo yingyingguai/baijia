@@ -139,7 +139,8 @@ class UserController extends Controller
             //+++++++++++++++ '' '' '' ''   记住  这是一般表单  没有样式
             $model->load($request->post(), '');
             if ($model->validate()) {
-
+                //得到member_id
+                $model->member_id = \Yii::$app->user->id;
                 if ($model->status) {
                     $model->status = 1;
                 } else {
