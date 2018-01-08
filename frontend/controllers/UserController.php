@@ -113,7 +113,7 @@ class UserController extends Controller
 
                     echo '登录成功';
                     sleep(1);
-                    return $this->redirect('http://www.yii.com');
+                    return $this->redirect(['site/index']);
                 }
             }
         }
