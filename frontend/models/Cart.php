@@ -9,7 +9,6 @@ class Cart extends ActiveRecord{
     {
         return [
           [['goods_id','amount','member_id'],'exist']  ,
-            []
         ];
     }
     //关联商品表

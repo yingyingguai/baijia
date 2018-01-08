@@ -3,9 +3,9 @@
 namespace frontend\controllers;
 
 use backend\models\Goods;
-use Codeception\Module\Redis;
+
 use frontend\models\Address;
-use frontend\models\cart;
+
 use frontend\models\LoginForm;
 use frontend\models\Member;
 use yii\captcha\CaptchaAction;
