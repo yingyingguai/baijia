@@ -3,7 +3,7 @@ namespace frontend\models;
 use backend\models\Goods;
 use yii\db\ActiveRecord;
 
-class cart extends ActiveRecord{
+class Cart extends ActiveRecord{
 
     public function rules()
     {
