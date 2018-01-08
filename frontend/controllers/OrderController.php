@@ -62,10 +62,12 @@ class OrderController extends Controller{
 
           $cart = Cart::find()->where(['member_id' => $member_id])->all();
             $goods_id = [];
+            //数量
             foreach ($cart as $v) {
                 $goods_id[$v->goods_id] = $v->amount;
             }
             $ret = [];
+
             foreach ($cart as $a) {
                 $ret[] = $a->goods_id;
             }
