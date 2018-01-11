@@ -92,10 +92,11 @@ class SiteController extends Controller
                 $threes[$kid->id] = $kids;
             }
         }
-        $contents = $this->render('index');
+      //  $contents = $this->render('index');
         //>>将首页内容保存到静态页面内
-        file_put_contents('index.html', $contents);
-        return $this->render('@webroot/index.html');
+   //     file_put_contents('index.html', $contents);
+      //  return $this->render('@webroot/index.html');
+       return $this->render('index');
     }
 
 

@@ -8,6 +8,7 @@ use backend\models\GoodsGallery;
 use backend\models\Goods;
 use backend\models\GoodsDay;
 use backend\models\GoodsIntro;
+use common\models\SphinxClient;
 use kucha\ueditor\UEditorAction;
 use Qiniu\Auth;
 use Qiniu\Storage\UploadManager;
@@ -22,6 +23,7 @@ class  GoodsController extends Controller
 {
 
     public $enableCsrfValidation = false;
+
     //上传图片
     public function actions()
     {
@@ -37,6 +39,7 @@ class  GoodsController extends Controller
             ]
         ];
     }
+
     //处理logo图片
     public function actionUploads()
     {
@@ -75,10 +78,11 @@ class  GoodsController extends Controller
             //=========================七牛云==============================
         }
     }
+
     //处理相册图片
     public function actionUpload1()
     {
-        $id=$_GET['id'];
+        $id = $_GET['id'];
         $img = UploadedFile::getInstanceByName('file');
         $fileName = '/upload/goods/gallery/' . uniqid() . '.' . $img->extension;
         if ($img->saveAs(\Yii::getAlias('@webroot') . $fileName, 0)) {
@@ -110,30 +114,33 @@ class  GoodsController extends Controller
                 //上传成功
                 //上传成功 保存到数据库
                 $gallery = new GoodsGallery();
-                $gallery->goods_id=$id;
+                $gallery->goods_id = $id;
                 $gallery->path = $url;
                 $gallery->save();
                 $gid = \Yii::$app->db->getLastInsertID();
-                return Json::encode(['url' => $url,'gid'=>$gid]);
+                return Json::encode(['url' => $url, 'gid' => $gid]);
 
             }
             //=========================七牛云==============================
         }
     }
+
     //1.显示
     public function actionIndex()
     {
-        $sn = \Yii::$app->request->get('sn')?\Yii::$app->request->get('sn'):'';
-        $shop_price = \Yii::$app->request->get('shop_price')?\Yii::$app->request->get('shop_price'):0;
-        $keyword = \Yii::$app->request->get('keyword')?\Yii::$app->request->get('keyword'):0;
+        $sn = \Yii::$app->request->get('sn') ? \Yii::$app->request->get('sn') : '';
+        $shop_price = \Yii::$app->request->get('shop_price') ? \Yii::$app->request->get('shop_price') : 0;
+        $keyword = \Yii::$app->request->get('keyword') ? \Yii::$app->request->get('keyword') : 0;
 
 
         $query = Goods::find();
         if ($sn) {
             $query->andwhere(['like', 'sn', $sn]);
-        }  if ($shop_price) {
+        }
+        if ($shop_price) {
             $query->andwhere(['like', 'shop_price', $shop_price]);
-        }  if ($keyword) {
+        }
+        if ($keyword) {
             $query->andwhere(['like', 'name', $keyword]);
         }
         $pager = new Pagination([
@@ -144,6 +151,7 @@ class  GoodsController extends Controller
         //调用视图
         return $this->render("index", ['goods' => $goods, 'pager' => $pager]);
     }
+
     //添加
     public function actionAdd()
     {
@@ -151,13 +159,10 @@ class  GoodsController extends Controller
         $intro = new GoodsIntro();
         $request = new Request();
         $model = new Goods();
-
         $goods_brand = Brand::find()->all();
         $brands = ArrayHelper::map($goods_brand, 'id', 'name');
-        // var_dump($brands);die;
         if ($request->isPost) {
             $model->load($request->post());
-            // var_dump($request->post());die;
             //后台验证
             if ($model->validate()) {
                 //------------------自动生成货号------------------
@@ -181,11 +186,25 @@ class  GoodsController extends Controller
                 //------------------自动生成货号------------------
                 $model->create_time = time();
                 $model->save();
-
                 //详情
                 $intro->content = $model->content;
                 $intro->G_id = $model->id;
-                $intro->save();
+
+                $res = $intro->save(false);
+                //>>============生成静态页面=================
+//                if($res){
+//                    $intro = GoodsIntro::find()->where(['goods_id' => $model->id])->one();
+//                    $gallerys = GoodsGallery::find()->where(['goods_id' => $model->id])->all();
+//                    $row = Goods::find()->where(['id' => $model->id])->one();
+//                    $brand = Brand::find()->where(['id' => $model->brand_id])->asArray()->one();
+//                    $row->brand_id = $brand['id'];
+//                    $row->view_time = $row->view_time + 1;
+//                    $row->save(false);
+//                    //>>获取页面内容生成静态页面
+//                    $contents = $this->renderPartial('goods', ['row' => $row, 'intro' => $intro, 'gallerys' => $gallerys]);
+//                    file_put_contents(\Yii::getAlias('@frontend/web').'/goods_'.$row->id.'.html',$contents);
+//                }
+                //>>============================================
                 //提示信息 跳转
                 \Yii::$app->session->setFlash('success', '添加成功!');
                 //跳转到首页
@@ -197,6 +216,7 @@ class  GoodsController extends Controller
         }
         return $this->render('add', ['model' => $model, 'brands' => $brands]);
     }
+
     //修改
     public function actionEdit($id)
     {
@@ -218,7 +238,23 @@ class  GoodsController extends Controller
                 //详情
                 $intro->content = $model->content;
                 $intro->G_id = $model->id;
-                $intro->save();
+                $res = $intro->save(false);
+
+                //>>============生成静态页面=================
+//                if($res){
+//                    $intro = GoodsIntro::find()->where(['goods_id' => $model->id])->one();
+//                    $gallerys = GoodsGallery::find()->where(['goods_id' => $model->id])->all();
+//                    $row = Goods::find()->where(['id' => $model->id])->one();
+//                    $brand = Brand::find()->where(['id' => $model->brand_id])->asArray()->one();
+//                    $row->brand_id = $brand['id'];
+//                    $row->view_time = $row->view_time + 1;
+//                    $row->save(false);
+//                    //>>获取页面内容生成静态页面
+//                    $contents = $this->renderPartial('goods', ['row' => $row, 'intro' => $intro, 'gallerys' => $gallerys]);
+//                    file_put_contents(\Yii::getAlias('@frontend/web').'/goods_'.$row->id.'.html',$contents);
+//                }
+                //>>============================================
+
                 //提示信息 跳转
                 \Yii::$app->session->setFlash('success', '修改成功!');
                 //跳转到首页
@@ -230,39 +266,43 @@ class  GoodsController extends Controller
         }
         return $this->render('add', ['model' => $model, 'brands' => $brands]);
     }
+
     //删除
     public function actionDelete($id)
     {
 
     }
+
     //商品相册
     public function actionGallery($id)
     {
         //1.显示页面
         $goods = GoodsGallery::find()->where(['goods_id' => $id])->All();
-        return $this->render('gallery', ['goods' => $goods,'id'=>$id]);
+        return $this->render('gallery', ['goods' => $goods, 'id' => $id]);
     }
 
     //AJAX删除图片
     public function actionDelGallery($id)
     {
-        $row = GoodsGallery::find()->where(['id'=>$id])->one();
+        $row = GoodsGallery::find()->where(['id' => $id])->one();
         $res = $row->delete();
         return Json::encode($res);
 
     }
+
     //>>内容展示
-    public function actionView($id){
+    public function actionView($id)
+    {
         //找到当前数据
-        $model=Goods::findOne($id);
+        $model = Goods::findOne($id);
         //找到相册
-        $pics = GoodsGallery::find()->where(['goods_id'=>$id])->all();
+        $pics = GoodsGallery::find()->where(['goods_id' => $id])->all();
 
         //找到详情
-        $content = GoodsIntro::findOne(['goods_id'=>$id]);
-        $model->path= $pics;
-        $model->content=$content->content;
-        return $this->render('view',['model'=>$model]);
+        $content = GoodsIntro::findOne(['goods_id' => $id]);
+        $model->path = $pics;
+        $model->content = $content->content;
+        return $this->render('view', ['model' => $model]);
     }
 //    public function behaviors()
 //    {
@@ -274,4 +314,26 @@ class  GoodsController extends Controller
 //            ]
 //        ];
 //    }
+
+    public function actionSearch()
+    {
+        $cl = new SphinxClient();
+        $cl->SetServer('127.0.0.1', 9312);
+        $cl->SetConnectTimeout(10);
+        $cl->SetArrayResult(true);
+
+        $cl->SetMatchMode(SPH_MATCH_EXTENDED2);
+        $cl->SetLimits(0, 1000);
+        $info = '小米雷军'; //关键字
+        $res = $cl->Query($info, 'mysql');//索引
+         //找到搜索id
+        $ids=[];
+        if (isset($res['matches'])){
+            foreach ( $res['matches'] as $val) {
+                $ids[]=$val['id'];
+            }
+        }
+        var_dump($ids);
+       // print_r($res);
+    }
 }
