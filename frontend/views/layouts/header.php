@@ -22,9 +22,9 @@
         <div class="topnav_right fr">
             <ul>
                 <!-- /*=*/?>-->
-                <li><?=Yii::$app->user->isGuest?'您好':Yii::$app->user->identity->username?>欢迎来到京西！[<a href="<?=\yii\helpers\Url::to(['user/logout'])?>">注销</a>][<a href="<?=\yii\helpers\Url::to(['user/login'])?>">登录</a>] [<a href="<?=\yii\helpers\Url::to(['user/regist'])?>">免费注册</a>] </li>
+                <li id="user_status"><?=Yii::$app->user->isGuest?'您好':Yii::$app->user->identity->username?>欢迎来到京西！<a href="<?=\yii\helpers\Url::to(['user/logout'])?>"><?=Yii::$app->user->isGuest?'':'［注销］'?></a><a href="<?=\yii\helpers\Url::to(['user/login'])?>"><?=Yii::$app->user->isGuest?'［登陆］':''?></a><a href="<?=\yii\helpers\Url::to(['user/regist'])?>"><?=Yii::$app->user->isGuest?'［免费注册］':''?></a> </li>
                 <li class="line">|</li>
-                <li>我的订单</li>
+                <li><a href="<?=\yii\helpers\Url::to(['order/order'])?>"><?=Yii::$app->user->isGuest?'':'我的订单'?></a></li>
                 <li class="line">|</li>
                 <li>客户服务</li>
             </ul>
@@ -43,7 +43,7 @@
             <div class="search_form">
                 <div class="form_left fl"></div>
 
-                <form action="<?=\yii\helpers\Url::to('list/search')?>" name="search" method="get" class="fl">
+                <form action="<?=\yii\helpers\Url::to(['list/search'])?>" name="search" method="get" class="fl">
                     <input type="text" class="txt" name="name" value="请输入商品关键字" /><input type="submit" class="btn" value="搜索" />
                 </form>
 
@@ -75,7 +75,7 @@
                     <div class="uclist mt10">
                         <ul class="list1 fl">
                             <li><a href="">用户信息></a></li>
-                            <li><a href="<?=\yii\helpers\Url::to('order/order')?>">我的订单></a></li>
+                            <li><a href="<?=\yii\helpers\Url::to(['order/order'])?>">我的订单></a></li>
                             <li><a href="<?=Yii::$app->user->isGuest?\yii\helpers\Url::to(['user/login']):\yii\helpers\Url::to(['user/address','id'=>Yii::$app->user->identity->id])?>">收货地址></a></li>
                             <li><a href="">我的收藏></a></li>
                         </ul>
@@ -134,7 +134,7 @@
 
         <div class="navitems fl">
             <ul class="fl">
-                <li class="current"><a href="">首页</a></li>
+                <li class="current"><a href="<?=\yii\helpers\Url::to('@webroot/index.html')?>">首页</a></li>
                 <li><a href="">电脑频道</a></li>
                 <li><a href="">家用电器</a></li>
                 <li><a href="">品牌大全</a></li>
@@ -148,6 +148,18 @@
     <!-- 导航条部分 end -->
 </div>
 <!-- 头部 end-->
+<script type="text/javascript">
 
+
+    $.getJSON('<?=\yii\helpers\Url::to(['user/user-status'])?>',function(data){
+        if(data.isLogin){
+            $('#user_status').html(data.username+",欢迎来到京西商城 <a href='<?=\yii\helpers\Url::to(['user/logout'])?>'>[注销]</a>");
+        }else{
+            $('#user_status').html('您好,欢迎来到京西商城 <a href="<?=\yii\helpers\Url::to(['user/regist'])?>">[免费注册]</a> <a href="<?=\yii\helpers\Url::to(['user/login'])?>">[登陆]</a>')
+        }
+
+    })
+
+</script>
 <div style="clear:both;"></div>
 <?=$content?>

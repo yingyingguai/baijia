@@ -1,4 +1,5 @@
 <?php
+
 namespace frontend\controllers;
 
 use backend\models\GoodsCategory;
@@ -62,8 +63,8 @@ class SiteController extends Controller
             'captcha' => [
                 'class' => 'yii\captcha\CaptchaAction',
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
-                'minLength'=>3,
-                'maxLength'=>4,
+                'minLength' => 3,
+                'maxLength' => 4,
             ],
         ];
     }
@@ -74,23 +75,27 @@ class SiteController extends Controller
      * @return mixed
      */
 
-        public function actionIndex()
+    public function actionIndex()
     {
-        $categorys = GoodsCategory::find()->where(['parent_id'=>0])->all();
-        $children=[];
+
+        $categorys = GoodsCategory::find()->where(['parent_id' => 0])->all();
+        $children = [];
         //顶级分类id
-        foreach($categorys as $category){
-            $child = GoodsCategory::find()->where(['parent_id'=>$category->id])->all();
+        foreach ($categorys as $category) {
+            $child = GoodsCategory::find()->where(['parent_id' => $category->id])->all();
             //二级分类
-            $children[$category->id]= $child;
-            foreach ($child as $kid){
-              //  $three=[];
-                $kids =GoodsCategory::find()->where(['parent_id'=>$kid->id])->all();
+            $children[$category->id] = $child;
+            foreach ($child as $kid) {
+                //  $three=[];
+                $kids = GoodsCategory::find()->where(['parent_id' => $kid->id])->all();
                 //3级分类
-                $threes[$kid->id]=$kids;
+                $threes[$kid->id] = $kids;
             }
         }
-        return $this->render('index',['categorys'=>$categorys,'children'=>$children,'threes'=>$threes]);
+        $contents = $this->render('index');
+        //>>将首页内容保存到静态页面内
+        file_put_contents('index.html', $contents);
+        return $this->render('@webroot/index.html');
     }
 
 
@@ -229,8 +234,6 @@ class SiteController extends Controller
             'model' => $model,
         ]);
     }
-
-
 
 
 }

@@ -6,19 +6,12 @@
         <div class="area">
             <div class="slide_items">
                 <ul>
-
-
-                    <li><a href=""><img src="/images/20180108.jpg" alt=""/></a></li>     <li><a href=""><img src="/images/index_slide6.jpg" alt=""/></a></li>        <li><a href=""><img src="/images/index_slide1.jpg" alt=""/></a></li>
-                    <li><a href=""><img src="/images/20180108.jpg" alt=""/></a></li>
-                    <li><a href=""><img src="/images/20180108.jpg" alt=""/></a></li>
-                    <li><a href=""><img src="/images/20180108.jpg" alt=""/></a></li>
-                    <li><a href=""><img src="/images/20180108.jpg" alt=""/></a></li>
-<!--                    <li><a href=""><img src="/images/index_slide6.jpg" alt=""/></a></li>        <li><a href=""><img src="/images/index_slide6.jpg" alt=""/></a></li>     <li><a href=""><img src="/images/index_slide6.jpg" alt=""/></a></li>        <li><a href=""><img src="/images/index_slide1.jpg" alt=""/></a></li>-->
-<!--                    <li><a href=""><img src="/images/index_slide2.jpg" alt=""/></a></li>-->
-<!--                    <li><a href=""><img src="/images/index_slide3.jpg" alt=""/></a></li>-->
-<!--                    <li><a href=""><img src="/images/index_slide4.jpg" alt=""/></a></li>-->
-<!--                    <li><a href=""><img src="/images/index_slide5.jpg" alt=""/></a></li>-->
-<!--                    <li><a href=""><img src="/images/index_slide6.jpg" alt=""/></a></li>-->
+                    <li><a href=""><img src="/images/index_slide6.jpg" alt=""/></a></li>        <li><a href=""><img src="/images/index_slide6.jpg" alt=""/></a></li>     <li><a href=""><img src="/images/index_slide6.jpg" alt=""/></a></li>        <li><a href=""><img src="/images/index_slide1.jpg" alt=""/></a></li>
+                    <li><a href=""><img src="/images/index_slide2.jpg" alt=""/></a></li>
+                    <li><a href=""><img src="/images/index_slide3.jpg" alt=""/></a></li>
+                    <li><a href=""><img src="/images/index_slide4.jpg" alt=""/></a></li>
+                    <li><a href=""><img src="/images/index_slide5.jpg" alt=""/></a></li>
+                    <li><a href=""><img src="/images/index_slide6.jpg" alt=""/></a></li>
                 </ul>
             </div>
             <div class="slide_controls">

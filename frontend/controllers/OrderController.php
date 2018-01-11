@@ -1,15 +1,20 @@
 <?php
+
 namespace frontend\controllers;
+
 use backend\models\Goods;
 use frontend\models\Address;
 use frontend\models\Cart;
+use frontend\models\Member;
 use frontend\models\Order;
 use frontend\models\OrderGoods;
 use yii\db\Exception;
 use yii\web\Controller;
+
 class OrderController extends Controller
 {
     public $enableCsrfValidation = false;
+
     //订单展示
     public function actionIndex()
     {
@@ -121,6 +126,23 @@ class OrderController extends Controller
                     //保存总金额
                     $model->total = $total[$stock->id];
                     $model->save(false);
+                    //=============发送邮件================
+                    $member =    Member::findOne($member_id);
+                    $email=$member->email;
+                   // var_dump($email);die;
+                    $mail = \Yii::$app->mailer->compose();
+                    $res = $mail->setFrom('13688072750@163.com')
+                       // ->setTo('13688072750@163.com')
+                        ->setTo($email)
+                        ->setSubject('hello')
+                        ->setHtmlBody('你好订单')
+                        ->send();
+                    if ($res){
+                        echo'ok';
+                    }
+
+
+                    //=============发送邮件================
                 }
                 //清除购物车数据
                 $gouwuche = Cart::find()->where(['member_id' => $member_id])->all();
@@ -168,6 +190,7 @@ class OrderController extends Controller
         $model1 = OrderGoods::findOne(['order_id' => $id]);
         $model->delete();
         $model1->delete();
+
         return $this->redirect(['order/order']);
     }
 
@@ -175,6 +198,116 @@ class OrderController extends Controller
     public function actionSuccess()
     {
         return $this->render('success');
+    }
+
+
+    //>>清理过期未支付订单
+    public function actionCleanOrder()
+    {
+        $orders = Order::find()->where(['status' => 1])->andWhere(['<', 'create_time', time() - 10])->all();
+        //>>每条订单
+        if ($orders) {
+            foreach ($orders as $order) {
+                $order->status = 0;
+                $order->save(false);
+                $goods = OrderGoods::find()->where(['order_id' => $order->id])->all();
+                //>>每个订单的商品 返还库存
+                foreach ($goods as $good) {
+                    $detail = Goods::find()->where(['id' => $good->goods_id])->one();
+                    $detail->stock += $good->amount;
+                    $detail->save(false);
+                }
+            }
+        }
+    }
+
+    //>>解决超卖
+    public function actionOverTop()
+    {
+        /**
+         *  $redis = new \Redis();
+         *   $redis->connect('127.0.0.1');
+         *   事先将活动商品的库存和id存入redis
+         *   在订单保存之后
+         *   $order->save()
+         *   遍历提交订单用户的购物车中的商品信息并根据商品id在redis中减去
+         *    $res=$redis->decrBy('stock_'.$cart->goods_id,$cart->amount)
+         *    在redis中用哈希类型保存id=>count 以便redis中商品数量不够回滚
+         *      $redis->hSet('reduce_'.$order->id,$cart->goods_id,$cart->amount);
+         *      if($res<0){
+         *商品不足抛出异常
+         * }else{
+         *提交订单  保存订单数据
+         * }
+         * 异常处理
+         *  catch{
+         *      捕获到异常->redis中商品数量不足->回滚
+         *      获取redis里该订单的商品id和数量
+         *      $reduces = $redis->hGetAll('reduce_'.$order->id)
+         *
+         *      foreach($reduces as $id=>$num){
+         *              $redis->incrBy('stock_'.$id,$num)
+         *      }
+         * }
+         */
+    }
+
+    /**
+     * 邮件发送
+     */
+/*    public function actionEmail($email, $title, $content)
+    {
+
+        $mail = \Yii::$app->mailer->compose();
+        $res = $mail->setFrom('13688072750@163.com')
+            ->setTo($email)
+            ->setSubject($title)
+            ->setHtmlBody($content)
+            ->send();
+    }*/
+    public function actionEmail()
+    {
+        $mail = \Yii::$app->mailer->compose();
+        $res = $mail->setFrom('13688072750@163.com')
+            ->setTo('13688072750@163.com')
+            ->setSubject('hello')
+            ->setHtmlBody('你好')
+            ->send();
+        if ($res){
+            echo'ok';
+        }
+    }
+
+    /*
+     *
+     *
+     *  a 将name= “张三”保存到redis，并设置30秒后过期。（写PHP代码）
+     *  b 将age=  18 保存到redis（写PHP代码）
+     *  c 检测name是否已过期，如果过期age减1，否则age加1（写PHP代码）
+      */
+    public function actionTest()
+    {
+        $redis = new \Redis();
+        $redis->connect('127.0.0.1');
+        $redis->set('name', '张三', 10);
+        $redis->set('age', '18');
+        echo $redis->get('name');
+        echo $redis->get('age');
+
+    }
+
+    public function actionCheck()
+    {
+        $redis = new \Redis();
+        $redis->connect('127.0.0.1');
+        $name = $redis->get('name');
+        $age = $redis->get('age');
+        if ($name) {
+            $age += 1;
+        } else {
+            $age -= 1;
+        }
+        echo $age;
     }
 
 

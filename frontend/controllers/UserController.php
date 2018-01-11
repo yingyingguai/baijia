@@ -16,7 +16,6 @@ class UserController extends Controller
 {
     //必须写这个 ,不然400错误
     public $enableCsrfValidation = false;
-
     //验证用户名是否存在
     public function actionCheckUsername($username)
     {
@@ -27,7 +26,6 @@ class UserController extends Controller
             echo 'true';
         }
     }
-
     //用户注册
     public function actionRegist()
     {
@@ -50,7 +48,6 @@ class UserController extends Controller
         }
         return $this->render('regist');
     }
-
     //验证码
     public function actions()
 {
@@ -63,7 +60,6 @@ class UserController extends Controller
         ]
     ];
 }
-
     //登录
     public function actionLogin()
     {
@@ -109,7 +105,7 @@ class UserController extends Controller
 
                     echo '登录成功';
                     sleep(1);
-                    return $this->redirect(['site/index']);
+                    return $this->redirect('@webroot/index.html');
                 }
             }
         }
@@ -117,15 +113,12 @@ class UserController extends Controller
 
         return $this->render('login');
     }
-
-
     //注销
     public function actionLogout()
     {
         \Yii::$app->user->logout();
         return $this->redirect(['user/login']);
     }
-
     //收货地址
     public function actionAddress()
     {
@@ -151,7 +144,6 @@ class UserController extends Controller
         }
         return $this->render('address');
     }
-
     //回显
     public function actionAddressEdit($id)
     {
@@ -175,7 +167,6 @@ class UserController extends Controller
         }
         return $this->render('edit_address', ['row' => $row]);
     }
-
     //删除
     public function actionAddressDel($id)
     {
@@ -183,7 +174,6 @@ class UserController extends Controller
         $model->delete();
         return $this->redirect(['user/address']);
     }
-
     //>>设置默认地址
     public function actionAddrDefault($id)
     {
@@ -198,7 +188,20 @@ class UserController extends Controller
         $addr->save(false);
         return $this->redirect(['user/address']);
     }
-
+    //>>用户登陆状态ajax
+    public function actionUserStatus(){
+        $result=[
+            'isLogin'=>'',
+            'username'=>''
+        ];
+        if(\Yii::$app->user->isGuest){
+            $result['isLogin']=false;
+        }else{
+            $result['isLogin']=true;
+            $result['username']=\Yii::$app->user->identity->username;
+        }
+        return json_encode($result);
+    }
     //阿里大于
     public function actionSms($phone)
     {
@@ -278,7 +281,6 @@ class UserController extends Controller
 
         var_dump($content) ;*/
     }
-
     //验证手机验证码
     public function actionCheckCaptchaTel($captcha, $tel)
     {
@@ -299,7 +301,6 @@ class UserController extends Controller
             return "false";
         }
     }
-
     //>>添加商品到购物车
     public function actionAddToCart($goods_id,$amount){
         if(\Yii::$app->user->isGuest){

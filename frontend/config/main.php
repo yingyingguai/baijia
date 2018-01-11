@@ -48,6 +48,20 @@ return [
             'sign'=>'源氏特产',
             'template'=>'SMS_120125269',
         ],
+        //邮箱配置
+        'mailer' => [
+            'class' => yii\swiftmailer\Mailer::className(),
+            'useFileTransport'=>false,
+            'transport' => [
+                'class' => 'Swift_SmtpTransport',
+                'host' => 'smtp.163.com',
+                'username' => '13688072750@163.com',
+                'password' => 'a731462402',
+                'port' => '25',
+                'encryption' => 'tls',
+            ],
+        ],
+
 
 
         'urlManager' => [

@@ -7,6 +7,7 @@ use backend\models\Goods;
 use backend\models\GoodsCategory;
 use backend\models\GoodsGallery;
 use backend\models\GoodsIntro;
+use common\models\SphinxClient;
 use yii\data\Pagination;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
@@ -50,14 +51,44 @@ class ListController extends Controller
         $brand = Brand::find()->where(['id'=>$row->brand_id])->asArray()->one();
      //  var_dump($brand);
         $row->brand_id = $brand['name'];
-        Goods::updateAllCounters(['view_time'=>1],['id'=>$id]);
+
+      //  Goods::updateAllCounters(['view_time'=>1],['id'=>$id]);
+
+        //使用redis，处理商品浏览数
+        //前提 需要将商品浏览数保存到redis
+        $redis = new \Redis();
+        $redis->connect('127.0.0.1');
+        $times = $redis->incr('times_'.$id);
+        //同步  一般每天 （每周 每月）3-5点 将redis中的浏览次数写回商品表
+        //编辑计划任务
+        $row->view_time = $times;
 
         return $this->render('list',['row'=>$row,'intro'=>$intro,'gallerys'=>$gallerys]);  }
 
     //搜索功能  将搜索商品 展示在index页面
     public function actionSearch($name){
+        //分词搜索
+
+        $cl = new SphinxClient();
+        $cl->SetServer('127.0.0.1', 9312);
+        $cl->SetConnectTimeout(10);
+        $cl->SetArrayResult(true);
+
+        $cl->SetMatchMode(SPH_MATCH_EXTENDED2);
+        $cl->SetLimits(0, 1000);
+        $info = $name; //关键字
+        $res = $cl->Query($info, 'mysql');//索引
+        //找到搜索id
+        $ids=[];
+        if (isset($res['matches'])){
+            foreach ( $res['matches'] as $val) {
+                $ids[]=$val['id'];
+            }
+        }
+
+       // var_dump($ids);
             //找到搜索条数
-        $count = Goods::find()->where(['like','name',$name])->count();
+        $count = Goods::find()->where(['in','id',$ids])->count();
         //分页的
         $pager = new Pagination([
             'pageSize' => 2,
@@ -65,7 +96,7 @@ class ListController extends Controller
         ]);
 
         $rows = Goods::find()
-            ->where(['like', 'name', $name])
+            ->where(['in', 'id', $ids])
             ->limit($pager->limit)
             ->offset($pager->offset)
             ->all();
